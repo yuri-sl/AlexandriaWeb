@@ -11,10 +11,21 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule,FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { timeout } from 'rxjs';
+import { Header } from '../../shared/header/header';
+import {PaginatorModule} from 'primeng/paginator'
 
 @Component({
   selector: 'app-gestao-livros',
-  imports: [TableModule,ReactiveFormsModule,FormsModule,DialogModule,InputNumberModule, ButtonModule,InputTextModule],
+  imports: [TableModule,
+    Header,
+    ReactiveFormsModule,
+    FormsModule,
+    DialogModule,
+    InputNumberModule,
+    ButtonModule,
+    InputTextModule,
+    PaginatorModule
+  ],
   templateUrl: './gestao-livros.html',
   styleUrl: './gestao-livros.scss',
 })
@@ -26,6 +37,15 @@ export class GestaoLivros implements OnInit{
 
   formLivro: FormGroup;
   idLivro:any;
+  termoPesquisa: any;
+  
+  first:number = 0;
+  rows:number = 10;
+
+  onPageChange(event:any){
+    this.first = event.first ?? 0;
+    this.rows = event.rows ?? 10;
+  }
 
     constructor(
     private livroService:Livros,

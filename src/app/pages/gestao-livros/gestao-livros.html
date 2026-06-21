@@ -1,12 +1,32 @@
-<p>gestao-livros works!</p>
-
-
-<p-button
-    label="adicionar livro"
-    [rounded]="true"
-    (onClick)="habilitarAdicionarModal()"
->
-</p-button>
+<div class="header">
+    <div class="left">
+        <span class="p-input-icon-left search-input">
+            <i class="pi pi-search"></i>
+            <input
+                pInputText
+                type="text"
+                placeholder="Pesquisar..."
+                [(ngModel)]="termoPesquisa"
+                (keypress)="habilitarAdicionarModal()"
+            >
+        </span>
+    </div>
+    <div class="right">
+        <p-button
+            label="adicionar livro"
+            [rounded]="true"
+            (onClick)="habilitarAdicionarModal()"
+        >
+        </p-button>
+            <p-paginator 
+            (onPageChange)="onPageChange($event)" 
+            [first]="first" 
+            [rows]="rows" 
+            [totalRecords]="120" 
+            [rowsPerPageOptions]="[10, 20, 30]">
+            </p-paginator>
+    </div>
+</div>
 
 <p-table [value]="listaLivros">
     <ng-template #header>
@@ -64,50 +84,73 @@
     [modal]="true"
     [draggable]="false"
     [resizable]="false"
+    [style]="{ width: '60vw' }"
+    [breakpoints]="{ '960px': '80vw', '640px': '95vw' }"
     [header]="modoEdicao ? 'Editar Livro' : 'Adicionar Livro'">
-    <div class="form-livro">
-        <form [formGroup]="formLivro" (ngSubmit)="enviarFormulario()">
-            <label for="titulo">Título</label>
-            <input
-                pInputText
-                id="titulo"
-                formControlName="titulo"
-            >
-            <label for="autor">Autor</label>
-            <input
-                pInputText
-                id="autor"
-                formControlName="autor"
-            >
-            <label for="descricao">Descrição</label>
-            <input
-                pInputText
-                id="descricao"
-                formControlName="descricao"
-            >
 
-            <label for="genero">Gênero
-            </label>
-            <input
-                pInputText
-                id="genero"
-                formControlName="genero"
-            >
+    <div class="dialog-content">
+        <div class="left">
+            <div class="form-livro">
+                <form [formGroup]="formLivro" (ngSubmit)="enviarFormulario()">
+                    <div class="campo">
+                        <label for="titulo">Título</label>
+                        <input
+                            pInputText
+                            id="titulo"
+                            formControlName="titulo"
+                        >
+                    </div>
 
+                    <div class="campo">
+                        <label for="autor">Autor</label>
+                        <input
+                            pInputText
+                            id="autor"
+                            formControlName="autor"
+                        >
+                    </div>
 
+                    <div class="campo">
+                        <label for="descricao">Descrição</label>
+                        <input
+                            pInputText
+                            id="descricao"
+                            formControlName="descricao"
+                        >
+                    </div>
 
+                    <div class="campo">
+                        <label for="genero">Gênero</label>
+                        <input
+                            pInputText
+                            id="genero"
+                            formControlName="genero"
+                        >
+                    </div>
+
+                    <div class="action-buttons">
+                        <p-button 
+                            label="Cancelar"
+                            icon="pi pi-times"
+                            (onClick)="fecharModal()"
+                        ></p-button>
+
+                        <p-button 
+                            [label]="modoEdicao ? 'Salvar Alterações' : 'Adicionar'"
+                            icon="pi pi-check"
+                            type="submit"
+                        ></p-button>    
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="right">
             <p-button 
-                [label]="modoEdicao? 'Salvar Alterações' : 'Adicionar'"
-                icon="pi pi-check"
-                type="submit"
+                label="Fazer upload de imagem"
+                icon="pi pi-upload"
             ></p-button>
-
-            <p-button 
-                label="Cancelar"
-                icon="pi pi-cross"
-                (onClick)="fecharModal()"
-            ></p-button>
-        </form>
+        </div>
     </div>
 
 </p-dialog>

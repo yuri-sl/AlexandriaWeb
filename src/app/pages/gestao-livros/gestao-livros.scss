@@ -1,0 +1,42 @@
+html,body{
+    margin: 0;
+    padding: 0;
+}
+
+.left{
+    flex: 2;
+    width: fit-content;
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+}
+.right{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-livro{
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    form{
+        display: flex;
+        flex-direction: column;
+    }
+    .campo{
+        display: flex;
+        flex-direction: column;
+        padding: 16px 8px;
+    }
+    .action-buttons{
+        display: flex;
+        flex-direction: row;
+        buttons{
+            padding: 16px;
+        }
+    }
+}

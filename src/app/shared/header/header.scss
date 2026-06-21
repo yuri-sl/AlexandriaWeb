@@ -1,0 +1,19 @@
+html,body{
+    margin: 0!important;
+    padding: 0;
+}
+.container{
+    
+    background-color: #0F2042;
+    color: white;
+    h3{
+        margin: 0;
+        font-size: 14px;
+        color: rgb(174, 174, 0);
+    }
+    .logo{
+        border: 2px solid rgb(174, 174, 0);
+        padding: 10px;
+        width: fit-content;
+    }
+}
