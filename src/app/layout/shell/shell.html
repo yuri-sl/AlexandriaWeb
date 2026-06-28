@@ -1,0 +1,78 @@
+<div class="shell" [class.collapsed]="sidebarCollapsed()">
+  <!-- ===================== Sidebar ===================== -->
+  <aside class="sidebar">
+    <button
+      class="sidebar-toggle"
+      type="button"
+      (click)="toggleSidebar()"
+      [attr.aria-expanded]="!sidebarCollapsed()"
+      [attr.aria-label]="sidebarCollapsed() ? 'Expandir menu' : 'Recolher menu'"
+    >
+      <i class="pi" [class.pi-angle-right]="sidebarCollapsed()" [class.pi-angle-left]="!sidebarCollapsed()"></i>
+    </button>
+
+    <a class="brand" routerLink="/painel">
+      <div class="brand-mark">𓋹</div>
+      <div class="brand-text">
+        <span class="brand-name">Bibliotheca</span>
+        <span class="brand-sub">Alexandrina</span>
+      </div>
+    </a>
+
+    <nav class="nav">
+      @for (item of nav; track item.label) {
+        <a
+          class="nav-item"
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: false }"
+        >
+          <span class="nav-glyph">{{ item.glyph }}</span>
+          <i class="nav-icon" [class]="item.icon"></i>
+          <span class="nav-label">{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="sidebar-foot">
+      <a class="nav-item logout" routerLink="/login">
+        <i class="nav-icon pi pi-sign-out"></i>
+        <span class="nav-label">Sair</span>
+      </a>
+      <div class="papyrus-note">
+        <span class="motto">“Cura Animarum”</span>
+        <small>Casa do Saber Etéreo</small>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-title">
+        <h3>Gabinete Imperialium de Registros</h3>
+        <span class="topbar-date">{{ today | date: 'EEEE, d MMMM y' }}</span>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="topsearch">
+          <i class="pi pi-search"></i>
+          <input type="text" placeholder="Procurar nos rolos..." />
+        </div>
+        <button class="icon-btn" aria-label="Notificações">
+          <i class="pi pi-bell"></i>
+        </button>
+        <div class="user-chip">
+          <div class="avatar">𓁗</div>
+          <div class="user-meta">
+            <strong>Kira, Escriba-Mor</strong>
+            <small>Curadoria</small>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

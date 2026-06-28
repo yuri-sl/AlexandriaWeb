@@ -1,1 +1,91 @@
-<p>login works!</p>
+<div class="auth">
+  <!-- ===================== Decorative panel ===================== -->
+  <aside class="auth-aside" aria-hidden="true">
+    <a class="aside-brand" routerLink="/">
+      <span class="aside-mark">𓋹</span>
+      <span class="aside-brand-text">
+        <strong>Bibliotheca</strong>
+        <small>Alexandrina</small>
+      </span>
+    </a>
+
+    <div class="aside-center">
+      <p class="aside-eyebrow">𓂀 Gabinete Imperialium de Registros</p>
+      <h2 class="aside-quote">“Um lugar para a cura da alma”</h2>
+      <p class="aside-note">
+        Acesse o acervo, gerencie os rolos e zele pelo conhecimento confiado à
+        Grande Biblioteca.
+      </p>
+    </div>
+
+    <div class="aside-glyphs"><span>𓆎</span><span>𓁗</span><span>𓅓</span><span>𓊪</span></div>
+  </aside>
+
+  <!-- ===================== Form ===================== -->
+  <main class="auth-main">
+    <div class="auth-card">
+      <a class="auth-back" routerLink="/"><i class="pi pi-arrow-left"></i> Voltar à vitrine</a>
+
+      <div class="auth-head">
+        <span class="auth-mark">𓋹</span>
+        <h1>Entrar no sistema</h1>
+        <p>Bem-vindo de volta, escriba. Informe suas credenciais.</p>
+      </div>
+
+      <form class="auth-form" (ngSubmit)="entrar()">
+        <label class="field">
+          <span>E-mail</span>
+          <div class="input-wrap">
+            <i class="pi pi-user"></i>
+            <input
+              type="email"
+              name="email"
+              [(ngModel)]="email"
+              placeholder="escriba@alexandrina.org"
+              autocomplete="email"
+            />
+          </div>
+        </label>
+
+        <label class="field">
+          <span>Senha</span>
+          <div class="input-wrap">
+            <i class="pi pi-lock"></i>
+            <input
+              [type]="mostrarSenha ? 'text' : 'password'"
+              name="senha"
+              [(ngModel)]="senha"
+              placeholder="*******"
+              autocomplete="current-password"
+            />
+            <button
+              type="button"
+              class="reveal"
+              (click)="mostrarSenha = !mostrarSenha"
+              [attr.aria-label]="mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'"
+            >
+              <i class="pi" [class.pi-eye]="!mostrarSenha" [class.pi-eye-slash]="mostrarSenha"></i>
+            </button>
+          </div>
+        </label>
+
+        <div class="field-row">
+          <label class="remember">
+            <input type="checkbox" name="lembrar" />
+            <span>Lembrar de mim</span>
+          </label>
+          <a class="link" routerLink="/login">Esqueceu a senha?</a>
+        </div>
+
+        <button type="submit" class="btn-entrar">
+          Entrar <i class="pi pi-sign-in"></i>
+        </button>
+      </form>
+
+      <p class="auth-foot">
+        Ainda não tem acesso?
+        <a class="link" routerLink="/login">Solicitar conta de escriba</a>
+      </p>
+    </div>
+  </main>
+</div>

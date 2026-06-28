@@ -1,1 +1,197 @@
-/* You can add global styles to this file, and also import other style files */
+/* ============================================================
+   Bibliotheca Alexandrina — Global Design System
+   Alexandrian / Egyptian theme: lapis lazuli, gold & papyrus
+   ============================================================ */
+
+:root {
+  /* Lapis lazuli — deep royal blue (Egyptian sky / night) */
+  --alx-lapis-950: #060f24;
+  --alx-lapis-900: #0a1730;
+  --alx-lapis-800: #0f2042;
+  --alx-lapis-700: #16305f;
+  --alx-lapis-600: #1f4280;
+
+  /* Gold — the colour of the gods, leaf gilding */
+  --alx-gold-300: #e7cf86;
+  --alx-gold-400: #d8b550;
+  --alx-gold-500: #c9a227;
+  --alx-gold-600: #a8841d;
+  --alx-gold-700: #836619;
+
+  /* Papyrus / sand — warm parchment backdrop */
+  --alx-papyrus-50: #faf4e4;
+  --alx-papyrus-100: #f4ead0;
+  --alx-papyrus-200: #ecddb8;
+  --alx-papyrus-300: #ddc999;
+  --alx-sand: #d8c39a;
+
+  /* Accents */
+  --alx-terracotta: #b5651d;
+  --alx-malachite: #2e7d6b;
+  --alx-carnelian: #9c3b2e;
+
+  /* Ink */
+  --alx-ink: #2b2113;
+  --alx-ink-soft: #5b4d34;
+
+  /* Semantic surface tokens used across components */
+  --alx-bg: #f2e7cf;
+  --alx-surface: #fbf6ea;
+  --alx-surface-line: #e2d3ad;
+  --alx-text: var(--alx-ink);
+  --alx-text-muted: var(--alx-ink-soft);
+
+  --alx-radius: 14px;
+  --alx-shadow: 0 10px 30px -12px rgba(15, 32, 66, 0.35);
+  --alx-shadow-sm: 0 4px 14px -8px rgba(15, 32, 66, 0.4);
+
+  --font-display: 'Cinzel', serif;
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--alx-text);
+  background-color: var(--alx-bg);
+  /* subtle papyrus texture: woven warm gradients */
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(201, 162, 39, 0.10), transparent 45%),
+    radial-gradient(circle at 88% 6%, rgba(15, 32, 66, 0.08), transparent 40%),
+    repeating-linear-gradient(45deg, rgba(181, 101, 29, 0.018) 0 2px, transparent 2px 7px),
+    repeating-linear-gradient(-45deg, rgba(181, 101, 29, 0.018) 0 2px, transparent 2px 7px);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  color: var(--alx-lapis-800);
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+::-webkit-scrollbar-track {
+  background: var(--alx-papyrus-100);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--alx-sand);
+  border-radius: 8px;
+  border: 2px solid var(--alx-papyrus-100);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--alx-gold-500);
+}
+
+/* ============================================================
+   PrimeNG overrides — bend the Aura theme toward papyrus & gold
+   ============================================================ */
+
+/* Cards / panels */
+.p-card,
+.p-panel {
+  background: var(--alx-surface);
+  border: 1px solid var(--alx-surface-line);
+  border-radius: var(--alx-radius);
+  box-shadow: var(--alx-shadow-sm);
+}
+
+/* Buttons */
+.p-button {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border-radius: 10px;
+}
+
+/* Inputs */
+.p-inputtext {
+  background: var(--alx-surface);
+  border-color: var(--alx-surface-line);
+  border-radius: 10px;
+}
+.p-inputtext:enabled:focus {
+  border-color: var(--alx-gold-500);
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.25);
+}
+
+/* ---- Table ---- */
+.p-datatable {
+  border-radius: var(--alx-radius);
+  overflow: hidden;
+  border: 1px solid var(--alx-surface-line);
+  box-shadow: var(--alx-shadow-sm);
+}
+.p-datatable .p-datatable-thead > tr > th {
+  background: linear-gradient(180deg, var(--alx-lapis-800), var(--alx-lapis-900));
+  color: var(--alx-gold-300);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-color: var(--alx-lapis-700);
+  padding: 0.85rem 1rem;
+}
+.p-datatable .p-datatable-tbody > tr {
+  background: var(--alx-surface);
+  color: var(--alx-text);
+  transition: background 0.15s ease;
+}
+.p-datatable .p-datatable-tbody > tr:nth-child(even) {
+  background: var(--alx-papyrus-50);
+}
+.p-datatable .p-datatable-tbody > tr > td {
+  border-color: var(--alx-surface-line);
+  padding: 0.7rem 1rem;
+}
+.p-datatable .p-datatable-tbody > tr:hover {
+  background: var(--alx-papyrus-200) !important;
+}
+
+/* ---- Paginator ---- */
+.p-paginator {
+  background: transparent;
+  border: none;
+}
+
+/* ---- Dialog ---- */
+.p-dialog {
+  border-radius: var(--alx-radius);
+  overflow: hidden;
+  border: 1px solid var(--alx-gold-400);
+  box-shadow: var(--alx-shadow);
+}
+.p-dialog .p-dialog-header {
+  background: linear-gradient(180deg, var(--alx-lapis-800), var(--alx-lapis-900));
+  color: var(--alx-gold-300);
+  font-family: var(--font-display);
+  border-bottom: 2px solid var(--alx-gold-500);
+}
+.p-dialog .p-dialog-header .p-dialog-title {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.p-dialog .p-dialog-header .p-dialog-header-icon {
+  color: var(--alx-gold-300);
+}
+.p-dialog .p-dialog-content {
+  background: var(--alx-surface);
+  color: var(--alx-text);
+  padding-top: 1.4rem;
+}

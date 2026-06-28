@@ -1,23 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { livro, Livros } from '../../services/livros';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from "primeng/button";
-import { Badge } from "primeng/badge";
 import { ChangeDetectorRef } from '@angular/core';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule,FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { timeout } from 'rxjs';
-import { Header } from '../../shared/header/header';
 import {PaginatorModule} from 'primeng/paginator'
 
 @Component({
   selector: 'app-gestao-livros',
-  imports: [TableModule,
-    Header,
+  imports: [CommonModule,
+    TableModule,
     ReactiveFormsModule,
     FormsModule,
     DialogModule,
@@ -37,10 +34,21 @@ export class GestaoLivros implements OnInit{
 
   formLivro: FormGroup;
   idLivro:any;
-  termoPesquisa: any;
-  
+  termoPesquisa: string = '';
+
   first:number = 0;
   rows:number = 10;
+
+  /** Books matching the current search term (título, autor or gênero). */
+  get livrosFiltrados(): livro[] {
+    const termo = (this.termoPesquisa || '').trim().toLowerCase();
+    if (!termo) return this.listaLivros;
+    return this.listaLivros.filter((l) =>
+      [l.titulo, l.autor, l.genero].some((campo) =>
+        (campo || '').toLowerCase().includes(termo),
+      ),
+    );
+  }
 
   onPageChange(event:any){
     this.first = event.first ?? 0;
@@ -69,6 +77,8 @@ export class GestaoLivros implements OnInit{
 
 
   habilitarAdicionarModal(){
+    this.formLivro.reset();
+    this.idLivro = null;
     this.visualizarModal = true;
     this.modoEdicao = false;
   }
@@ -111,6 +121,8 @@ export class GestaoLivros implements OnInit{
     return this.livroService.postCriarLivro(livro).subscribe({
       next:(res) => {
         console.log(res);
+        this.fecharModal();
+        this.getAllBooks();
       },error:(err) => {
         console.error(err);
       }
@@ -141,6 +153,7 @@ export class GestaoLivros implements OnInit{
     return this.livroService.deletarLivro(id).subscribe({
       next:(res) => {
         console.log(res);
+        this.getAllBooks();
       },
       error:(err) => {
         console.error(err);
@@ -153,6 +166,8 @@ export class GestaoLivros implements OnInit{
     return this.livroService.putAtualizarLivro(this.idLivro,livro).subscribe({
       next:(res) => {
         console.log(res);
+        this.fecharModal();
+        this.getAllBooks();
       },
       error:(err) => {
         console.error(err);

@@ -1,156 +1,169 @@
-<div class="header">
-    <div class="left">
-        <span class="p-input-icon-left search-input">
-            <i class="pi pi-search"></i>
-            <input
-                pInputText
-                type="text"
-                placeholder="Pesquisar..."
-                [(ngModel)]="termoPesquisa"
-                (keypress)="habilitarAdicionarModal()"
-            >
-        </span>
+<section class="page">
+  <!-- Page heading -->
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">𓍝 Curadoria do Acervo</p>
+      <h1>Acervo da Biblioteca</h1>
+      <p class="lede">Catalogue, revise e zele pelos rolos confiados à Grande Biblioteca.</p>
     </div>
-    <div class="right">
-        <p-button
-            label="adicionar livro"
-            [rounded]="true"
-            (onClick)="habilitarAdicionarModal()"
-        >
-        </p-button>
-            <p-paginator 
-            (onPageChange)="onPageChange($event)" 
-            [first]="first" 
-            [rows]="rows" 
-            [totalRecords]="120" 
-            [rowsPerPageOptions]="[10, 20, 30]">
-            </p-paginator>
-    </div>
-</div>
+  </div>
 
-<p-table [value]="listaLivros">
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="search">
+      <i class="pi pi-search"></i>
+      <input
+        type="text"
+        placeholder="Buscar por título, autor ou gênero..."
+        [(ngModel)]="termoPesquisa"
+      />
+    </div>
+
+    <p-button
+      label="Catalogar obra"
+      icon="pi pi-plus"
+      [rounded]="true"
+      (onClick)="habilitarAdicionarModal()"
+    ></p-button>
+  </div>
+
+  <!-- Table -->
+  <p-table
+    [value]="livrosFiltrados"
+    [paginator]="true"
+    [rows]="rows"
+    [rowsPerPageOptions]="[10, 20, 30]"
+    [first]="first"
+    (onPage)="onPageChange($event)"
+    [tableStyle]="{ 'min-width': '60rem' }"
+  >
     <ng-template #header>
-        <tr>
-            <th>Id</th>
-            <th>Título</th>
-            <th>Descrição</th>
-            <th>Autor</th>
-            <th>Preço</th>
-            <th>Gênero</th>
-            <th>Estoque</th>
-            <th>Preço Atualizado</th>
-            <th colspan="2">Ações</th>
-
-
-        </tr>
+      <tr>
+        <th style="width: 4rem">Id</th>
+        <th>Título</th>
+        <th>Autor</th>
+        <th>Gênero</th>
+        <th>Descrição</th>
+        <th class="num">Preço</th>
+        <th class="num">Atualizado</th>
+        <th class="num">Estoque</th>
+        <th style="width: 9rem">Ações</th>
+      </tr>
     </ng-template>
 
     <ng-template #body let-livro>
-        <tr>
-            <td>{{ livro.id }}</td>
-            <td>{{ livro.titulo }}</td>
-            <td>{{ livro.descricao }}</td>
-            <td>{{ livro.autor }}</td>
-            <td>{{ livro.preco }}</td>
-            <td>{{ livro.genero }}</td>
-            <td>{{ livro.estoque }}</td>
-            <td>{{ livro.precoAtualizado }}</td>
-            <td>
-                <p-button label="Editar livro"
-                    (onClick)="habilitarEdicaoModal(livro.id)"
-                >
-                </p-button>
-                <p-button
-                    icon="pi pi-trash"
-                    severity="danger"
-                    [rounded]="true"
-                    [text]="true"
-                    label="deletar"
-                    (onClick)="deletarLivro(livro.id)"
-                    >
-                </p-button>
-            </td>
-        </tr>
-    </ng-template>
-</p-table>
-
-
-
-
-
-
-<p-dialog
-    [(visible)]="visualizarModal"
-    [modal]="true"
-    [draggable]="false"
-    [resizable]="false"
-    [style]="{ width: '60vw' }"
-    [breakpoints]="{ '960px': '80vw', '640px': '95vw' }"
-    [header]="modoEdicao ? 'Editar Livro' : 'Adicionar Livro'">
-
-    <div class="dialog-content">
-        <div class="left">
-            <div class="form-livro">
-                <form [formGroup]="formLivro" (ngSubmit)="enviarFormulario()">
-                    <div class="campo">
-                        <label for="titulo">Título</label>
-                        <input
-                            pInputText
-                            id="titulo"
-                            formControlName="titulo"
-                        >
-                    </div>
-
-                    <div class="campo">
-                        <label for="autor">Autor</label>
-                        <input
-                            pInputText
-                            id="autor"
-                            formControlName="autor"
-                        >
-                    </div>
-
-                    <div class="campo">
-                        <label for="descricao">Descrição</label>
-                        <input
-                            pInputText
-                            id="descricao"
-                            formControlName="descricao"
-                        >
-                    </div>
-
-                    <div class="campo">
-                        <label for="genero">Gênero</label>
-                        <input
-                            pInputText
-                            id="genero"
-                            formControlName="genero"
-                        >
-                    </div>
-
-                    <div class="action-buttons">
-                        <p-button 
-                            label="Cancelar"
-                            icon="pi pi-times"
-                            (onClick)="fecharModal()"
-                        ></p-button>
-
-                        <p-button 
-                            [label]="modoEdicao ? 'Salvar Alterações' : 'Adicionar'"
-                            icon="pi pi-check"
-                            type="submit"
-                        ></p-button>    
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="right">
-            <p-button 
-                label="Fazer upload de imagem"
-                icon="pi pi-upload"
+      <tr>
+        <td class="muted">#{{ livro.id }}</td>
+        <td class="strong">{{ livro.titulo }}</td>
+        <td>{{ livro.autor }}</td>
+        <td><span class="tag">{{ livro.genero }}</span></td>
+        <td class="desc">{{ livro.descricao }}</td>
+        <td class="num">{{ livro.preco | currency: 'BRL' }}</td>
+        <td class="num">{{ livro.precoAtualizado | currency: 'BRL' }}</td>
+        <td class="num">
+          <span class="stock" [class.low]="livro.estoque <= 5">{{ livro.estoque }}</span>
+        </td>
+        <td>
+          <div class="row-actions">
+            <p-button
+              icon="pi pi-pencil"
+              [rounded]="true"
+              [text]="true"
+              severity="secondary"
+              (onClick)="habilitarEdicaoModal(livro.id)"
             ></p-button>
-        </div>
+            <p-button
+              icon="pi pi-trash"
+              severity="danger"
+              [rounded]="true"
+              [text]="true"
+              (onClick)="deletarLivro(livro.id)"
+            ></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="9" class="empty">
+          <div class="empty-state">
+            <span class="empty-glyph">𓂀</span>
+            <strong>Nenhum rolo encontrado</strong>
+            <small>Ajuste a busca ou catalogue uma nova obra.</small>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</section>
+
+<!-- ===================== Dialog ===================== -->
+<p-dialog
+  [(visible)]="visualizarModal"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '52rem' }"
+  [breakpoints]="{ '960px': '80vw', '640px': '95vw' }"
+  [header]="modoEdicao ? 'Editar Obra' : 'Catalogar Nova Obra'"
+>
+  <form class="form-livro" [formGroup]="formLivro" (ngSubmit)="enviarFormulario()">
+    <div class="grid-2">
+      <div class="campo">
+        <label for="titulo">Título</label>
+        <input pInputText id="titulo" formControlName="titulo" placeholder="Os Elementos" />
+      </div>
+
+      <div class="campo">
+        <label for="autor">Autor</label>
+        <input pInputText id="autor" formControlName="autor" placeholder="Euclides" />
+      </div>
+
+      <div class="campo">
+        <label for="genero">Gênero</label>
+        <input pInputText id="genero" formControlName="genero" placeholder="Matemática" />
+      </div>
+
+      <div class="campo">
+        <label for="estoque">Estoque</label>
+        <p-inputNumber inputId="estoque" formControlName="estoque" [min]="0"></p-inputNumber>
+      </div>
+
+      <div class="campo">
+        <label for="preco">Preço</label>
+        <p-inputNumber
+          inputId="preco"
+          formControlName="preco"
+          mode="currency"
+          currency="BRL"
+          locale="pt-BR"
+          [min]="0"
+        ></p-inputNumber>
+      </div>
+
+      <div class="campo campo--full">
+        <label for="descricao">Descrição</label>
+        <input pInputText id="descricao" formControlName="descricao" placeholder="Breve nota sobre a obra" />
+      </div>
     </div>
 
+    <div class="action-buttons">
+      <p-button
+        label="Cancelar"
+        icon="pi pi-times"
+        severity="secondary"
+        [text]="true"
+        (onClick)="fecharModal()"
+        type="button"
+      ></p-button>
+
+      <p-button
+        [label]="modoEdicao ? 'Salvar Alterações' : 'Adicionar ao Acervo'"
+        icon="pi pi-check"
+        type="submit"
+        [disabled]="formLivro.invalid"
+      ></p-button>
+    </div>
+  </form>
 </p-dialog>

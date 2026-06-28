@@ -1,0 +1,119 @@
+<div class="landing">
+  <!-- ===================== Public nav ===================== -->
+  <header class="lp-nav">
+    <a class="lp-brand" routerLink="/">
+      <span class="lp-brand-mark">𓋹</span>
+      <span class="lp-brand-text">
+        <strong>Bibliotheca</strong>
+        <small>Alexandrina</small>
+      </span>
+    </a>
+
+    <nav class="lp-links">
+      <a href="#vitrine">Acervo</a>
+      <a href="#areas">Áreas do saber</a>
+      <a href="#sobre">A Biblioteca</a>
+    </nav>
+
+    <div class="lp-nav-actions">
+      <a routerLink="/login" class="btn btn-ghost">Entrar</a>
+      <a routerLink="/login" class="btn btn-gold">Criar conta</a>
+    </div>
+  </header>
+
+  <!-- ===================== Hero ===================== -->
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">𓂀 A maior livraria do mundo antigo</p>
+      <h1 class="hero-title">O conhecimento de toda a humanidade, em um só lugar.</h1>
+      <p class="hero-lede">
+        Da geometria de Euclides à astronomia de Ptolomeu — adquira rolos e códices
+        raros, copiados pelos escribas da Grande Biblioteca de Alexandria.
+      </p>
+      <div class="hero-actions">
+        <a href="#vitrine" class="btn btn-gold btn-lg">Explorar o acervo</a>
+        <a routerLink="/login" class="btn btn-outline btn-lg">Acessar o sistema</a>
+      </div>
+
+      <div class="hero-stats">
+        <div><strong>{{ totalObras() }}+</strong><span>obras catalogadas</span></div>
+        <div><strong>{{ categorias().length }}</strong><span>áreas do saber</span></div>
+        <div><strong>700 a.C.</strong><span>de história</span></div>
+      </div>
+    </div>
+    <div class="hero-glyphs" aria-hidden="true">
+      <span>𓆎</span><span>𓁗</span><span>𓅓</span><span>𓋹</span>
+    </div>
+  </section>
+
+  <!-- ===================== Showcase ===================== -->
+  <section id="vitrine" class="section">
+    <div class="section-head">
+      <p class="eyebrow">𓍝 Vitrine</p>
+      <h2>Obras em destaque</h2>
+      <p class="section-sub">Uma seleção dos tesouros disponíveis para aquisição.</p>
+    </div>
+
+    <div class="grid-produtos">
+      @for (l of vitrine(); track l.id) {
+        <article class="produto">
+          <div class="produto-capa">
+            <span class="capa-glyph">𓂀</span>
+            <span class="capa-inicial">{{ inicial(l.titulo) }}</span>
+            <span class="produto-genero">{{ l.genero }}</span>
+          </div>
+          <div class="produto-corpo">
+            <h3 class="produto-titulo">{{ l.titulo }}</h3>
+            <p class="produto-autor">{{ l.autor }}</p>
+            <p class="produto-desc">{{ l.descricao }}</p>
+            <div class="produto-rodape">
+              <span class="produto-preco">{{ l.preco | currency: 'BRL' }}</span>
+              <a routerLink="/login" class="btn btn-gold btn-sm">Adquirir</a>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+
+  <!-- ===================== Categories ===================== -->
+  <section id="areas" class="section section-band">
+    <div class="section-head">
+      <p class="eyebrow">𓎼 Coleções</p>
+      <h2>Áreas do saber</h2>
+      <p class="section-sub">Percorra o acervo pelas grandes disciplinas da Antiguidade.</p>
+    </div>
+    <div class="categorias">
+      @for (c of categorias(); track c) {
+        <a routerLink="/login" class="categoria">{{ c }}</a>
+      }
+    </div>
+  </section>
+
+  <!-- ===================== About ===================== -->
+  <section id="sobre" class="section sobre">
+    <div class="sobre-glyph" aria-hidden="true">𓊪</div>
+    <div class="sobre-text">
+      <p class="eyebrow">𓊹 A Biblioteca</p>
+      <h2>“Um lugar para a cura da alma”</h2>
+      <p>
+        Fundada às margens do Mediterrâneo, a Bibliotheca Alexandrina reuniu os
+        maiores pensadores de seu tempo. Hoje, levamos esse mesmo espírito a você:
+        catálogo curado, atendimento de escribas e entrega de obras que atravessaram
+        séculos.
+      </p>
+      <a routerLink="/login" class="btn btn-gold">Junte-se à Biblioteca</a>
+    </div>
+  </section>
+
+  <!-- ===================== Footer ===================== -->
+  <footer class="lp-footer">
+    <div class="lp-footer-brand">
+      <span class="lp-brand-mark">𓋹</span>
+      <span>Bibliotheca Alexandrina</span>
+    </div>
+    <p class="lp-footer-note">
+      © {{ anoAtual }} — Gabinete Imperialium de Registros · Casa do Saber Etéreo
+    </p>
+  </footer>
+</div>
