@@ -166,6 +166,12 @@
 }
 .sidebar-foot .logout {
   margin-bottom: 10px;
+  width: 100%;
+  background: none;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
 }
 .sidebar-foot .logout:hover {
   color: var(--alx-gold-300);

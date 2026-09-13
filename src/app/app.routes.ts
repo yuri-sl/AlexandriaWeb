@@ -4,6 +4,7 @@ import { Landing } from './pages/landing/landing';
 import { Login } from './pages/login/login';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { GestaoLivros } from './pages/gestao-livros/gestao-livros';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
   // ---- Public pages (no dashboard chrome) ----
@@ -14,6 +15,7 @@ export const routes: Routes = [
   {
     path: '',
     component: Shell,
+    canActivate: [authGuard],
     children: [
       { path: 'painel', component: Dashboard },
       { path: 'acervo', component: GestaoLivros },

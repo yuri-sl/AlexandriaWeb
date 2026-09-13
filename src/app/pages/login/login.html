@@ -77,8 +77,12 @@
           <a class="link" routerLink="/login">Esqueceu a senha?</a>
         </div>
 
-        <button type="submit" class="btn-entrar">
-          Entrar <i class="pi pi-sign-in"></i>
+        @if (erro()) {
+          <p class="auth-error">{{ erro() }}</p>
+        }
+
+        <button type="submit" class="btn-entrar" [disabled]="carregando()">
+          {{ carregando() ? 'Entrando...' : 'Entrar' }} <i class="pi pi-sign-in"></i>
         </button>
       </form>
 

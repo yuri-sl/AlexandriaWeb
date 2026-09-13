@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { livro, Livros } from '../../services/livros';
+import { Auth } from '../../services/auth';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from "primeng/button";
 import { ChangeDetectorRef } from '@angular/core';
@@ -27,6 +28,8 @@ import {PaginatorModule} from 'primeng/paginator'
   styleUrl: './gestao-livros.scss',
 })
 export class GestaoLivros implements OnInit{
+
+  protected readonly auth = inject(Auth);
 
   listaLivros: livro[] = [];
   visualizarModal:boolean = false;
@@ -77,12 +80,14 @@ export class GestaoLivros implements OnInit{
 
 
   habilitarAdicionarModal(){
+    if (!this.auth.isAdmin()) return;
     this.formLivro.reset();
     this.idLivro = null;
     this.visualizarModal = true;
     this.modoEdicao = false;
   }
   habilitarEdicaoModal(id:any){
+    if (!this.auth.isAdmin()) return;
     this.visualizarModal = true;
     this.modoEdicao =true;
     this.getBookInfoById(id);
@@ -117,6 +122,7 @@ export class GestaoLivros implements OnInit{
   }
 
   postNewBook(){
+    if (!this.auth.isAdmin()) return;
     const livro: livro = this.formLivro.getRawValue();
     return this.livroService.postCriarLivro(livro).subscribe({
       next:(res) => {
@@ -150,6 +156,7 @@ export class GestaoLivros implements OnInit{
   }
 
   deletarLivro(id:any){
+    if (!this.auth.isAdmin()) return;
     return this.livroService.deletarLivro(id).subscribe({
       next:(res) => {
         console.log(res);
@@ -162,6 +169,7 @@ export class GestaoLivros implements OnInit{
   }
 
   putEditarLivro(){
+    if (!this.auth.isAdmin()) return;
     const livro = this.formLivro.getRawValue();
     return this.livroService.putAtualizarLivro(this.idLivro,livro).subscribe({
       next:(res) => {

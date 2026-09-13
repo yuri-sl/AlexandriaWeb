@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { Auth } from '../../services/auth';
 
 interface NavItem {
   label: string;
@@ -16,6 +17,9 @@ interface NavItem {
   styleUrl: './shell.scss',
 })
 export class Shell {
+  protected readonly auth = inject(Auth);
+  private readonly router = inject(Router);
+
   protected readonly today = new Date();
 
   /** Sidebar starts collapsed: only the rail + arrow show until the user expands it. */
@@ -23,6 +27,11 @@ export class Shell {
 
   toggleSidebar(): void {
     this.sidebarCollapsed.update((v) => !v);
+  }
+
+  sair(): void {
+    this.auth.logout();
+    this.router.navigate(['/login']);
   }
 
   protected readonly nav: NavItem[] = [

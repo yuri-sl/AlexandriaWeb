@@ -19,12 +19,14 @@
       />
     </div>
 
-    <p-button
-      label="Catalogar obra"
-      icon="pi pi-plus"
-      [rounded]="true"
-      (onClick)="habilitarAdicionarModal()"
-    ></p-button>
+    @if (auth.isAdmin()) {
+      <p-button
+        label="Catalogar obra"
+        icon="pi pi-plus"
+        [rounded]="true"
+        (onClick)="habilitarAdicionarModal()"
+      ></p-button>
+    }
   </div>
 
   <!-- Table -->
@@ -64,22 +66,26 @@
           <span class="stock" [class.low]="livro.estoque <= 5">{{ livro.estoque }}</span>
         </td>
         <td>
-          <div class="row-actions">
-            <p-button
-              icon="pi pi-pencil"
-              [rounded]="true"
-              [text]="true"
-              severity="secondary"
-              (onClick)="habilitarEdicaoModal(livro.id)"
-            ></p-button>
-            <p-button
-              icon="pi pi-trash"
-              severity="danger"
-              [rounded]="true"
-              [text]="true"
-              (onClick)="deletarLivro(livro.id)"
-            ></p-button>
-          </div>
+          @if (auth.isAdmin()) {
+            <div class="row-actions">
+              <p-button
+                icon="pi pi-pencil"
+                [rounded]="true"
+                [text]="true"
+                severity="secondary"
+                (onClick)="habilitarEdicaoModal(livro.id)"
+              ></p-button>
+              <p-button
+                icon="pi pi-trash"
+                severity="danger"
+                [rounded]="true"
+                [text]="true"
+                (onClick)="deletarLivro(livro.id)"
+              ></p-button>
+            </div>
+          } @else {
+            <span class="muted">—</span>
+          }
         </td>
       </tr>
     </ng-template>

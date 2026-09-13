@@ -214,6 +214,17 @@
 }
 .link:hover { color: var(--alx-gold-500); }
 
+.auth-error {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #b3432b;
+  background: rgba(179, 67, 43, 0.12);
+  color: #b3432b;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
 .btn-entrar {
   margin-top: 6px;
   display: inline-flex;
@@ -234,6 +245,7 @@
   transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 .btn-entrar:hover { transform: translateY(-1px); box-shadow: var(--alx-shadow); }
+.btn-entrar:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
 
 .auth-foot {
   margin-top: 26px;
