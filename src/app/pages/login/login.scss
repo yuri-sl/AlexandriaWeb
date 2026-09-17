@@ -212,7 +212,10 @@
   text-decoration: none;
   font-weight: 600;
 }
-.link:hover { color: var(--alx-gold-500); }
+.link:hover { 
+  color: var(--alx-gold-500);
+  cursor: pointer;
+}
 
 .auth-error {
   margin: 0;

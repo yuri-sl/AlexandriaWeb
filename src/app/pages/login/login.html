@@ -28,10 +28,20 @@
 
       <div class="auth-head">
         <span class="auth-mark">𓋹</span>
-        <h1>Entrar no sistema</h1>
-        <p>Bem-vindo de volta, escriba. Informe suas credenciais.</p>
+        @if (!isCadsatro && !isNovaSenha) {
+          <h1>Entrar no sistema</h1>
+        }
+        @if (isCadsatro) {
+          <h1>Cadastrar no sistema</h1>
+        }
+        @if (isNovaSenha) {
+          <h1>Esqueci a senha</h1>
+        }
+        <p>Bem-vindo de volta. Informe suas credenciais.</p>
       </div>
 
+
+      @if (!isNovaSenha && !isCadsatro) {
       <form class="auth-form" (ngSubmit)="entrar()">
         <label class="field">
           <span>E-mail</span>
@@ -53,8 +63,8 @@
             <i class="pi pi-lock"></i>
             <input
               [type]="mostrarSenha ? 'text' : 'password'"
-              name="senha"
-              [(ngModel)]="senha"
+              name="password"
+              [(ngModel)]="password"
               placeholder="*******"
               autocomplete="current-password"
             />
@@ -74,7 +84,7 @@
             <input type="checkbox" name="lembrar" />
             <span>Lembrar de mim</span>
           </label>
-          <a class="link" routerLink="/login">Esqueceu a senha?</a>
+          <a class="link" (click)="isNovaSenha = true">Esqueceu a senha?</a>
         </div>
 
         @if (erro()) {
@@ -85,10 +95,38 @@
           {{ carregando() ? 'Entrando...' : 'Entrar' }} <i class="pi pi-sign-in"></i>
         </button>
       </form>
+      }
+
+      @if (isCadsatro) {
+        <form class="auth-form" [formGroup]="form_cadastro">
+          <label class="field">
+            <span>Email</span>
+            <input type="text" name="email" formControlName="email">
+          </label>
+          <label class="field">
+            <span>Nome</span>
+            <input type="text" name="nome">
+          </label>
+          <label class="field">
+            <span>Senha</span>
+            <input type="password" name="senha" formControlName="senha">
+          </label>
+          <label class="field">
+            <span>Repita a senha</span>
+            <input type="password" name="repete_senha" formControlName="repete_senha">
+          </label>
+        </form>
+      }
+
+
+      @if (isCadsatro || isNovaSenha) {
+        <button class="btn-entrar" (click)="controleFormulario()">Voltar para login</button>
+      }
+
 
       <p class="auth-foot">
         Ainda não tem acesso?
-        <a class="link" routerLink="/login">Solicitar conta de escriba</a>
+        <a class="link" (click)="isCadsatro = true">Solicitar conta de escriba</a>
       </p>
     </div>
   </main>

@@ -49,9 +49,9 @@ export class Auth {
 
   constructor(private http: HttpClient) {}
 
-  login(email: string, senha: string): Observable<LoginResponse> {
+  login(email: string, password: string): Observable<LoginResponse> {
     return this.http
-      .post<LoginResponse>(this.apiUrl, { email, senha })
+      .post<LoginResponse>(this.apiUrl, { email, password })
       .pipe(tap((res) => this.setToken(res.token)));
   }
 

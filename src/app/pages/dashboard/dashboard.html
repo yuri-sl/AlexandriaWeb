@@ -27,16 +27,16 @@
       <div class="kpi-body">
         <span class="kpi-label">Obras catalogadas</span>
         <strong class="kpi-value">{{ totalObras() }}</strong>
-        <span class="kpi-foot">rolos no acervo</span>
+        <span class="kpi-foot">Obras no acervo</span>
       </div>
     </article>
 
     <article class="kpi kpi--gold">
-      <div class="kpi-glyph">𓎟</div>
+      <div class="kpi-glyph"><i class="pi pi-database"></i></div>
       <div class="kpi-body">
         <span class="kpi-label">Estoque total</span>
         <strong class="kpi-value">{{ estoqueTotal() }}</strong>
-        <span class="kpi-foot">exemplares disponíveis</span>
+        <span class="kpi-foot">Exemplares disponíveis</span>
       </div>
     </article>
 
@@ -50,9 +50,10 @@
     </article>
 
     <article class="kpi kpi--terracotta">
-      <div class="kpi-glyph">𓏏</div>
+      <div class="kpi-glyph">
+        <i class="pi pi-chart-pie"></i>
+      </div>
       <div class="kpi-body">
-        <span class="kpi-label">Gêneros</span>
         <strong class="kpi-value">{{ generosDistintos() }}</strong>
         <span class="kpi-foot">áreas do saber</span>
       </div>
@@ -83,7 +84,7 @@
             <td class="strong">{{ l.titulo }}</td>
             <td>{{ l.autor }}</td>
             <td><span class="tag">{{ l.genero }}</span></td>
-            <td class="num">{{ l.estoque }}</td>
+            <td class="num">{{ l.estoque || 0 }}</td>
             <td class="num">{{ l.preco | currency: 'BRL' }}</td>
           </tr>
         </ng-template>
@@ -119,7 +120,7 @@
   <!-- Low stock -->
   <article class="panel">
     <header class="panel-head">
-      <h2>𓂧 Atenção do escriba — estoque baixo</h2>
+      <h2> Atenção — Estoque baixo</h2>
     </header>
     @if (baixoEstoque().length) {
       <div class="lowstock">
@@ -130,7 +131,7 @@
               <small>{{ l.autor }}</small>
             </div>
             <span class="ls-badge" [class.critical]="l.estoque <= 3">
-              {{ l.estoque }} restante{{ l.estoque === 1 ? '' : 's' }}
+              {{ l.estoque || 0 }} restante{{ l.estoque === 1 ? '' : 's' }}
             </span>
           </div>
         }
