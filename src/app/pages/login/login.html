@@ -28,10 +28,10 @@
 
       <div class="auth-head">
         <span class="auth-mark">𓋹</span>
-        @if (!isCadsatro && !isNovaSenha) {
+        @if (!isCadastro && !isNovaSenha) {
           <h1>Entrar no sistema</h1>
         }
-        @if (isCadsatro) {
+        @if (isCadastro) {
           <h1>Cadastrar no sistema</h1>
         }
         @if (isNovaSenha) {
@@ -41,7 +41,7 @@
       </div>
 
 
-      @if (!isNovaSenha && !isCadsatro) {
+      @if (!isNovaSenha && !isCadastro) {
       <form class="auth-form" (ngSubmit)="entrar()">
         <label class="field">
           <span>E-mail</span>
@@ -92,41 +92,53 @@
         }
 
         <button type="submit" class="btn-entrar" [disabled]="carregando()">
-          {{ carregando() ? 'Entrando...' : 'Entrar' }} <i class="pi pi-sign-in"></i>
+          {{ carregando() ? 'Entrando...' : 'Fazer Login' }}
         </button>
       </form>
       }
 
-      @if (isCadsatro) {
-        <form class="auth-form" [formGroup]="form_cadastro">
+      <!-- Formulario de Cadastro de conta -->
+      @if (isCadastro) {
+        <form class="auth-form" [formGroup]="form_cadastro" (ngSubmit)="cadastrar()">
           <label class="field">
             <span>Email</span>
-            <input type="text" name="email" formControlName="email">
+            <div class="input-wrap">
+              <input type="text" name="email" formControlName="email">
+            </div>
           </label>
           <label class="field">
-            <span>Nome</span>
-            <input type="text" name="nome">
+            <span>Usuário</span>
+            <div class="input-wrap">
+              <input type="text" name="username" formControlName="username">
+            </div>
           </label>
           <label class="field">
             <span>Senha</span>
-            <input type="password" name="senha" formControlName="senha">
+            <div class="input-wrap">
+              <input type="password" name="password" formControlName="password">
+            </div>
           </label>
           <label class="field">
             <span>Repita a senha</span>
-            <input type="password" name="repete_senha" formControlName="repete_senha">
+            <div class="input-wrap">
+              <input type="password" name="repete_senha" formControlName="repete_senha">
+            </div>
           </label>
+          <button class="btn-entrar" type="submit">Criar conta</button>
         </form>
       }
 
 
-      @if (isCadsatro || isNovaSenha) {
+      @if (isCadastro || isNovaSenha) {
         <button class="btn-entrar" (click)="controleFormulario()">Voltar para login</button>
       }
 
-
+        @if (isNovaSenha) {
+          <button class="btn-entrar" (click)="controleFormulario()">Alterar senha</button>
+        }
       <p class="auth-foot">
         Ainda não tem acesso?
-        <a class="link" (click)="isCadsatro = true">Solicitar conta de escriba</a>
+        <a class="link" (click)="isCadastro = true">Solicitar conta de escriba</a>
       </p>
     </div>
   </main>
