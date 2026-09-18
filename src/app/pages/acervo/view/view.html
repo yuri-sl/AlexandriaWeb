@@ -1,0 +1,54 @@
+<app-navbar></app-navbar>
+<div class="view-container">
+    <div class="left">
+    </div>
+    <div class="right">
+        <div class="categorias">
+
+        </div>
+        <h1>{{titulo}}</h1>
+        <label>Descrição dos livros</label>
+
+        <div class="preco-box">
+            <h1>R$ {{preco}}</h1>
+            <label>Em até 6x sem juros. Entrega pelos correios em 5-8 dias.</label>
+            <div class="preco-box-acoes-container">
+                <input [(ngModel)]="quantidade" type="range" name="quantidade" min="1" max="10">
+                <span>{{quantidade}}</span>
+                <button>Adicionar ao carrinho</button>
+                <button>Add. Favoritos</button>
+            </div>
+        </div>
+
+        <div class="ficha-tecnica">
+            <div class="colunas-tecnicas">
+                Ficha da Obra
+                Conservação
+                Proveniência
+                Avaliações
+            </div>
+            <div class="valores-colunas">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <h1>Obras relacionadas</h1>
+        <div class="obras-relacionadas">
+            <div class="card">
+                <h1>Título da obra</h1>
+            </div>
+        </div>
+    </div>
+
+    <footer class="lp-footer">
+        <div class="lp-footer-brand">
+            <span class="lp-brand-mark">𓋹</span>
+            <span>Bibliotheca Alexandrina</span>
+        </div>
+        <p class="lp-footer-note">
+        © 2026 — Gabinete Imperialium de Registros · Casa do Saber Etéreo
+        </p>
+    </footer>
+
+</div>

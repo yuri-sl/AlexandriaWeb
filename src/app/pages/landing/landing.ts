@@ -2,10 +2,11 @@ import { Component, OnInit, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { livro, Livros } from '../../services/livros';
+import { Navbar } from '../../shared/navbar/navbar';
 
 @Component({
   selector: 'app-landing',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, Navbar],
   templateUrl: './landing.html',
   styleUrl: './landing.scss',
 })

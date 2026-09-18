@@ -1,26 +1,5 @@
 <div class="landing">
-  <!-- ===================== Public nav ===================== -->
-  <header class="lp-nav">
-    <a class="lp-brand" routerLink="/">
-      <span class="lp-brand-mark">𓋹</span>
-      <span class="lp-brand-text">
-        <strong>Bibliotheca</strong>
-        <small>Alexandrina</small>
-      </span>
-    </a>
-
-    <nav class="lp-links">
-      <a href="#vitrine">Acervo</a>
-      <a href="#areas">Áreas do saber</a>
-      <a href="#sobre">A Biblioteca</a>
-    </nav>
-
-    <div class="lp-nav-actions">
-      <a routerLink="/login" class="btn btn-ghost">Entrar</a>
-      <a routerLink="/login" class="btn btn-gold">Criar conta</a>
-    </div>
-  </header>
-
+  <app-navbar></app-navbar>
   <!-- ===================== Hero ===================== -->
   <section class="hero">
     <div class="hero-inner">
@@ -49,7 +28,6 @@
   <!-- ===================== Showcase ===================== -->
   <section id="vitrine" class="section">
     <div class="section-head">
-      <p class="eyebrow">𓍝 Vitrine</p>
       <h2>Obras em destaque</h2>
       <p class="section-sub">Uma seleção dos tesouros disponíveis para aquisição.</p>
     </div>
@@ -68,7 +46,7 @@
             <p class="produto-desc">{{ l.descricao }}</p>
             <div class="produto-rodape">
               <span class="produto-preco">{{ l.preco | currency: 'BRL' }}</span>
-              <a routerLink="/login" class="btn btn-gold btn-sm">Adquirir</a>
+              <a routerLink="/acervo/view" class="btn btn-gold btn-sm">Adquirir</a>
             </div>
           </div>
         </article>
