@@ -3,10 +3,10 @@
   <!-- ===================== Hero ===================== -->
   <section class="hero">
     <div class="hero-inner">
-      <p class="hero-eyebrow">𓂀 A maior livraria do mundo antigo</p>
-      <h1 class="hero-title">O conhecimento de toda a humanidade, em um só lugar.</h1>
+      <p class="hero-eyebrow">O marketplace do ambiente de pesquisa e livros universitários</p>
+      <h1 class="hero-title">Alexandria - Marketplace</h1>
       <p class="hero-lede">
-        Da geometria de Euclides à astronomia de Ptolomeu — adquira rolos e códices
+        Da geometria de Euclides à astronomia de Ptolomeu, adquira livros universitários e artigos
         raros, copiados pelos escribas da Grande Biblioteca de Alexandria.
       </p>
       <div class="hero-actions">
@@ -20,8 +20,31 @@
         <div><strong>700 a.C.</strong><span>de história</span></div>
       </div>
     </div>
+    <div class="hero-logo">
+      <img src="logo.png" alt="Logo Alexandria Marketplace" width="1052" height="720">
+    </div>
     <div class="hero-glyphs" aria-hidden="true">
       <span>𓆎</span><span>𓁗</span><span>𓅓</span><span>𓋹</span>
+    </div>
+  </section>
+
+  <section id="vitrine" class="section">
+    <div>
+      <h2>Adquira livros universitários e materiais de estudo para auxiliar em sua vida acadêmica.</h2>
+    </div>
+  </section>
+
+  <!-- ===================== Categories ===================== -->
+  <section id="areas" class="section section-band">
+    <div class="section-head">
+      <p class="eyebrow">𓎼 Coleções</p>
+      <h2>Áreas do saber</h2>
+      <p class="section-sub">Percorra o acervo pelas grandes disciplinas da Antiguidade.</p>
+    </div>
+    <div class="categorias">
+      @for (c of categorias(); track c) {
+        <a routerLink="/login" class="categoria">{{ c }}</a>
+      }
     </div>
   </section>
 
@@ -54,25 +77,13 @@
     </div>
   </section>
 
-  <!-- ===================== Categories ===================== -->
-  <section id="areas" class="section section-band">
-    <div class="section-head">
-      <p class="eyebrow">𓎼 Coleções</p>
-      <h2>Áreas do saber</h2>
-      <p class="section-sub">Percorra o acervo pelas grandes disciplinas da Antiguidade.</p>
-    </div>
-    <div class="categorias">
-      @for (c of categorias(); track c) {
-        <a routerLink="/login" class="categoria">{{ c }}</a>
-      }
-    </div>
-  </section>
+
 
   <!-- ===================== About ===================== -->
   <section id="sobre" class="section sobre">
     <div class="sobre-glyph" aria-hidden="true">𓊪</div>
     <div class="sobre-text">
-      <p class="eyebrow">𓊹 A Biblioteca</p>
+      <p class="eyebrow">A Biblioteca</p>
       <h2>“Um lugar para a cura da alma”</h2>
       <p>
         Fundada às margens do Mediterrâneo, a Bibliotheca Alexandrina reuniu os

@@ -7,6 +7,8 @@ import { GestaoLivros } from './pages/gestao-livros/gestao-livros';
 import { authGuard } from './guards/auth-guard';
 import { Acervo } from './pages/acervo/acervo';
 import { View } from './pages/acervo/view/view';
+import { Carrinho } from './pages/carrinho/carrinho';
+import { Estante } from './pages/estante/estante';
 
 export const routes: Routes = [
   // ---- Public pages ----
@@ -14,6 +16,8 @@ export const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'acervo', component: Acervo},
   { path: 'acervo/view', component: View},
+  { path: 'carrinho', component: Carrinho},
+  {path: 'estante', component:Estante},
 
   // ---- Authenticated area wrapped by the dashboard shell ----
   {
