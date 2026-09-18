@@ -4,35 +4,47 @@
 <h1>Meu carrinho</h1>
 <span>5 exemplares</span>
 
-<div class="card">
-    <div class="card-info">
-        <div class="card-info-texto">
-            <h3>Almagesto</h3>
-            <p>Ptolomeu - códice em velino</p>
-        </div>
-        <div class="card-right">
-            <input type="range" min="1" max="10">
-            <label>R$ 410,00</label>
-            <a>remover</a>
+
+@for (item of listaCarrinho; track $index) {
+    <div class="produto-grid">
+        <div class="produto">
+            <div class="card-info-texto">
+                <h3>{{item.titulo}}</h3>
+                <p>{{item.autor}}</p>
+            </div>
+            <div class="card-right">
+                <input type="number" min="1" max="10" [value]="item.quantidade" (input)="item.quantidade = $any($event.target).valueAsNumber">
+                <label>{{atualizarValor(item)}}</label>
+                <a>remover</a>
+            </div>
         </div>
     </div>
-</div>
+}
 
-<div class="entrega">
-    <div class="entrega-opcoes">
-        <button>Correio Grátis</button>
-        <button>Expresso</button>
+<div class="produto-grid">
+    <div class="entrega">
+        <h2>Entrega</h2>
+        <div class="entrega-opcoes">
+            <button class="selected">Correio Grátis</button>
+            <button>Expresso</button>
+        </div>
     </div>
 </div>
 
 <div class="pagamento">
-    <div class="formas-pagamento">
+    <h2>Pagamento</h2>
+    <div class="pagamento-opcoes">
+        <div class="forma-pagamento-credito">
+            <input type="radio">Cartão de Credito
+        </div>
         <div class="forma-pagamento-pix">
-            <button type="button"></button>
-            <label>Pix</label>
+            <input type="radio">Pix
             <div class="forma-pagamento-right">
                 <label>5% desconto</label>
             </div>
+        </div>
+        <div class="forma-pagamento-boleto">
+            <input type="radio">Boleto
         </div>
     </div>
 </div>
