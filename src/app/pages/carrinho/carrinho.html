@@ -1,8 +1,13 @@
 <app-navbar>
 </app-navbar>
+<div class="container">
 
-<h1>Meu carrinho</h1>
-<span>5 exemplares</span>
+<div class="left-container">
+
+<div class="titulo">
+    <h1>Meu carrinho</h1>
+    <span>5 exemplares</span>
+</div>
 
 
 @for (item of listaCarrinho; track $index) {
@@ -25,8 +30,8 @@
     <div class="entrega">
         <h2>Entrega</h2>
         <div class="entrega-opcoes">
-            <button class="selected">Correio Grátis</button>
-            <button>Expresso</button>
+            <button [class.selected]="entregaValida('correios')" (click)="alternarEntrega('correios')">Correio Grátis</button>
+            <button [class.selected]="entregaValida('expresso')" (click)="alternarEntrega('expresso')">Expresso</button>
         </div>
     </div>
 </div>
@@ -47,4 +52,35 @@
             <input type="radio">Boleto
         </div>
     </div>
+</div>
+</div>
+
+<div class="right-container">
+    <section class="resumo-compras">
+        <h1 class="kpi-glyph">RESUMO</h1>
+        <div class="resumo-compra">
+            <div class="chave-compra">
+                <label>
+                    Subtotal (3 obras)
+                </label>
+                <label>Correios</label>
+                <label>Desconto de estudante (10%)</label>
+            </div>
+            <div class="valor-compra">
+                <label>R$ 920,00</label>
+                <label>Grátis</label>
+                <label>- R$ 92,00</label>
+                <div style="display: flex; flex-direction: row;">
+                    <input>
+                    <button>Aplicar</button>
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <label class="kpi-glyph">Total</label>
+                    <h2 class="kpi-glyph">R$ 828,00</h2>
+                </div>
+                <button>Finalizar Compra</button>
+            </div>
+        </div>
+    </section>
+</div>
 </div>

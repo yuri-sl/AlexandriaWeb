@@ -41,8 +41,15 @@ export class Carrinho {
 
     atualizarValor(Obra1:Obra){
       return BigInt(this.obra1.quantidade) * this.obra1.preco;
-
     }
+
+    alternarEntrega(send:string){
+      this.tipoEntrega = send;
+    }
+    entregaValida(tipo:string){
+      return this.tipoEntrega === tipo;
+    }
+
 
 
 

@@ -2,3 +2,45 @@
   display: block;
 }
 
+/* ===================== Footer ===================== */
+.lp-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 28px 6vw;
+  background: var(--alx-lapis-950);
+  color: var(--alx-papyrus-200);
+  border-top: 3px solid var(--alx-gold-600);
+}
+.lp-footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  color: #fff;
+}
+.lp-footer-note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--alx-papyrus-300);
+}
+
+/* ===================== Responsive ===================== */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 56px 6vw 64px;
+  }
+  .hero-logo {
+    order: -1;
+    max-width: 320px;
+  }
+}
+@media (max-width: 760px) {
+  .lp-links { display: none; }
+  .sobre { flex-direction: column; text-align: center; gap: 20px; }
+  .sobre-glyph { font-size: 7rem; }
+  .hero-glyphs { display: none; }
+}

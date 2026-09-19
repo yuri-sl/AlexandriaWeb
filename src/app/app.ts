@@ -12,4 +12,6 @@ import { ToastModule } from 'primeng/toast';
 })
 export class App {
   protected readonly title = signal('Bibliotheca Alexandrina');
+  protected readonly anoAtual = new Date().getFullYear();
+
 }
