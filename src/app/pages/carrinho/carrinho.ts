@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Navbar } from '../../shared/navbar/navbar';
-
+import { OnInit } from '@angular/core';
 
 type Obra = {
   titulo:string,
@@ -15,11 +15,16 @@ type Obra = {
   templateUrl: './carrinho.html',
   styleUrl: './carrinho.scss',
 })
-export class Carrinho {
-    totalCompra:number = 0;
+export class Carrinho implements OnInit {
+    totalCompra: bigint = BigInt(0);
+    descontoEstudante: number = 0;
 
     tipoEntrega: string = '';
     tipoPagamento: string = '';
+
+    ngOnInit(): void {
+      this.calcularTotal();
+    }
 
 
     obra1:Obra = ({
@@ -31,16 +36,25 @@ export class Carrinho {
     })
 
     obra2:Obra = ({
-      titulo: "as",
+      titulo: "aspd",
       preco: BigInt(12.00),
-      quantidade:2,
+      quantidade:1,
       autor:"Peter",
       marcador:"história"
     })
     listaCarrinho:Obra[] = [this.obra1,this.obra2];
 
-    atualizarValor(Obra1:Obra){
-      return BigInt(this.obra1.quantidade) * this.obra1.preco;
+    atualizarValor(obra:Obra){
+      this.calcularTotal();
+      return BigInt(obra.quantidade) * obra.preco;
+    }
+
+    calcularTotal(){
+      this.totalCompra = BigInt(0);
+      this.listaCarrinho.forEach(element => {
+        this.totalCompra = this.totalCompra + (element.preco * BigInt(element.quantidade));
+      });
+      this.totalCompra = this.totalCompra/ BigInt(10);
     }
 
     alternarEntrega(send:string){
@@ -49,6 +63,7 @@ export class Carrinho {
     entregaValida(tipo:string){
       return this.tipoEntrega === tipo;
     }
+
 
 
 

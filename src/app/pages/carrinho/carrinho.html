@@ -1,96 +1,102 @@
-<app-navbar>
-</app-navbar>
-<div class="container">
+<app-navbar></app-navbar>
 
-<div class="left-container">
+<main class="container">
 
-<div class="titulo">
-    <h1>Meu carrinho</h1>
-    <span>5 exemplares</span>
-</div>
+    <div class="left-container">
 
+        <header class="titulo">
+            <h1>Meu carrinho</h1>
+            <span>{{(this.listaCarrinho.length)}} exemplares</span>
+        </header>
 
-@for (item of listaCarrinho; track $index) {
-    <div class="produto-grid">
-        <div class="produto">
-            <div class="card-info-texto">
-                <h3>{{item.titulo}}</h3>
-                <p>{{item.autor}}</p>
+        @for (item of listaCarrinho; track $index) {
+            <article class="produto">
+                <div class="card-info-texto">
+                    <h3>{{ item.titulo }}</h3>
+                    <p>{{ item.autor }}</p>
+                </div>
+                <div class="card-right">
+                    <input
+                        type="number"
+                        min="1"
+                        max="10"
+                        aria-label="Quantidade"
+                        [value]="item.quantidade"
+                        (input)="item.quantidade = $any($event.target).valueAsNumber">
+                    <span class="preco-item">R$ {{ atualizarValor(item) }}</span>
+                    <button type="button" (click)="listaCarrinho.splice(listaCarrinho.indexOf(item), 1)" class="remover">remover</button>
+                </div>
+            </article>
+        }
+
+        <section class="entrega">
+            <h2>Entrega</h2>
+            <div class="entrega-opcoes">
+                <button
+                    type="button"
+                    [class.selected]="entregaValida('correios')"
+                    [attr.aria-pressed]="entregaValida('correios')"
+                    (click)="alternarEntrega('correios')">Correio Grátis</button>
+                <button
+                    type="button"
+                    [class.selected]="entregaValida('expresso')"
+                    [attr.aria-pressed]="entregaValida('expresso')"
+                    (click)="alternarEntrega('expresso')">Expresso</button>
             </div>
-            <div class="card-right">
-                <input type="number" min="1" max="10" [value]="item.quantidade" (input)="item.quantidade = $any($event.target).valueAsNumber">
-                <label>{{atualizarValor(item)}}</label>
-                <a>remover</a>
-            </div>
-        </div>
-    </div>
-}
+        </section>
 
-<div class="produto-grid">
-    <div class="entrega">
-        <h2>Entrega</h2>
-        <div class="entrega-opcoes">
-            <button [class.selected]="entregaValida('correios')" (click)="alternarEntrega('correios')">Correio Grátis</button>
-            <button [class.selected]="entregaValida('expresso')" (click)="alternarEntrega('expresso')">Expresso</button>
-        </div>
-    </div>
-</div>
-
-<div class="pagamento">
-    <h2>Pagamento</h2>
-    <div class="pagamento-opcoes">
-        <div class="forma-pagamento-credito">
-            <input type="radio">Cartão de Credito
-        </div>
-        <div class="forma-pagamento-pix" style="justify-content: space-between;">
-            <input type="radio">Pix
-            <label>5% desconto</label>
-        </div>
-        <div class="forma-pagamento-boleto">
-            <input type="radio">Boleto
-        </div>
-    </div>
-</div>
-</div>
-
-<div class="right-container">
-    <section class="resumo-compras">
-        <h1 class="kpi-glyph">RESUMO</h1>
-        <div class="resumo-compra">
-            <div style="display: flex; justify-content: space-between; font-size: 14px;">
-                <label>
-                    Subtotal (3 obras)
+        <section class="pagamento">
+            <h2>Pagamento</h2>
+            <div class="pagamento-opcoes">
+                <label class="forma-pagamento" [class.selected]="tipoPagamento === 'credito'">
+                    <input type="radio" name="pagamento" [checked]="tipoPagamento === 'credito'" (change)="tipoPagamento = 'credito'">
+                    <span>Cartão de Crédito</span>
                 </label>
-                <label>Correios</label>
-                <label>Desconto de estudante (10%)</label>
-                <label>R$ 920,00</label>
-                <label>Grátis</label>
-                <label>- R$ 92,00</label>
-                <div style="display: flex; flex-direction: row;">
-                    <input>
-                    <button>Aplicar</button>
-                </div>
-                <div style="display: flex; flex-direction: row;">
-                    <label class="kpi-glyph">Total</label>
-                    <h2 class="kpi-glyph">R$ 828,00</h2>
-                </div>
-                <button>Finalizar Compra</button>
-            <div class="valor-compra">
-                <label>R$ 920,00</label>
-                <label>Grátis</label>
-                <label>- R$ 92,00</label>
-                <div style="display: flex; flex-direction: row;">
-                    <input>
-                    <button>Aplicar</button>
-                </div>
-                <div style="display: flex; flex-direction: row;">
-                    <label class="kpi-glyph">Total</label>
-                    <h2 class="kpi-glyph">R$ 828,00</h2>
-                </div>
-                <button>Finalizar Compra</button>
+                <label class="forma-pagamento" [class.selected]="tipoPagamento === 'pix'">
+                    <input type="radio" name="pagamento" [checked]="tipoPagamento === 'pix'" (change)="tipoPagamento = 'pix'">
+                    <span>Pix</span>
+                    <span class="desconto">5% desconto</span>
+                </label>
+                <label class="forma-pagamento" [class.selected]="tipoPagamento === 'boleto'">
+                    <input type="radio" name="pagamento" [checked]="tipoPagamento === 'boleto'" (change)="tipoPagamento = 'boleto'">
+                    <span>Boleto</span>
+                </label>
             </div>
+        </section>
+
+    </div>
+
+    <aside class="right-container">
+        <section class="resumo-compras">
+            <h2 class="resumo-titulo">Resumo</h2>
+
+            <dl class="resumo-linhas">
+                <div class="resumo-linha">
+                    <dt>Subtotal ({{(this.listaCarrinho.length)}} obras)</dt>
+                    <dd>R$ {{totalCompra}}</dd>
+                </div>
+                <div class="resumo-linha">
+                    <dt>Correios</dt>
+                    <dd>Grátis</dd>
+                </div>
+                <div class="resumo-linha">
+                    <dt>Desconto de estudante (10%)</dt>
+                    <dd>- R$ {{descontoEstudante}}</dd>
+                </div>
+            </dl>
+
+            <div class="cupom">
+                <input type="text" placeholder="Cupom de desconto" aria-label="Cupom de desconto">
+                <button type="button" class="btn-aplicar">Aplicar</button>
             </div>
-        </div>
-    </section>
-</div>
-</div>
+
+            <div class="resumo-total">
+                <span>Total</span>
+                <strong>R$ 828,00</strong>
+            </div>
+
+            <button type="button" class="btn-finalizar">Finalizar Compra</button>
+        </section>
+    </aside>
+
+</main>
