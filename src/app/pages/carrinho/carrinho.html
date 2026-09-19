@@ -42,11 +42,9 @@
         <div class="forma-pagamento-credito">
             <input type="radio">Cartão de Credito
         </div>
-        <div class="forma-pagamento-pix">
+        <div class="forma-pagamento-pix" style="justify-content: space-between;">
             <input type="radio">Pix
-            <div class="forma-pagamento-right">
-                <label>5% desconto</label>
-            </div>
+            <label>5% desconto</label>
         </div>
         <div class="forma-pagamento-boleto">
             <input type="radio">Boleto
@@ -59,13 +57,24 @@
     <section class="resumo-compras">
         <h1 class="kpi-glyph">RESUMO</h1>
         <div class="resumo-compra">
-            <div class="chave-compra">
+            <div style="display: flex; justify-content: space-between; font-size: 14px;">
                 <label>
                     Subtotal (3 obras)
                 </label>
                 <label>Correios</label>
                 <label>Desconto de estudante (10%)</label>
-            </div>
+                <label>R$ 920,00</label>
+                <label>Grátis</label>
+                <label>- R$ 92,00</label>
+                <div style="display: flex; flex-direction: row;">
+                    <input>
+                    <button>Aplicar</button>
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <label class="kpi-glyph">Total</label>
+                    <h2 class="kpi-glyph">R$ 828,00</h2>
+                </div>
+                <button>Finalizar Compra</button>
             <div class="valor-compra">
                 <label>R$ 920,00</label>
                 <label>Grátis</label>
@@ -79,6 +88,7 @@
                     <h2 class="kpi-glyph">R$ 828,00</h2>
                 </div>
                 <button>Finalizar Compra</button>
+            </div>
             </div>
         </div>
     </section>
