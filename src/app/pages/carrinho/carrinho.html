@@ -29,6 +29,25 @@
             </article>
         }
 
+        @for (item of wishes(); track $index) {
+            <article class="produto">
+                <div class="card-info-texto">
+                    <h3>{{ item.name }}</h3>
+                    <p>{{ item.image }}</p>
+                </div>
+                <div class="card-right">
+                    <input
+                        type="number"
+                        min="1"
+                        max="10"
+                        aria-label="Quantidade"
+                        [value]="item.price"
+                        (input)="item.rating = $any($event.target).valueAsNumber">
+                    <button type="button" (click)="wishListService.removeFromWishList(item)" class="remover">remover</button>
+                </div>
+            </article>
+        }
+
         <section class="entrega">
             <h2>Entrega</h2>
             <div class="entrega-opcoes">

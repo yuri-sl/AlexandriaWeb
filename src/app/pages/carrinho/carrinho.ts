@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Navbar } from '../../shared/navbar/navbar';
 import { OnInit } from '@angular/core';
+import { Wishlistservice } from '../../service/wishlistservice';
 
 type Obra = {
   titulo:string,
@@ -16,6 +17,8 @@ type Obra = {
   styleUrl: './carrinho.scss',
 })
 export class Carrinho implements OnInit {
+    readonly wishListService = inject(Wishlistservice);
+    readonly wishes = this.wishListService.wishlist$;
     totalCompra: bigint = BigInt(0);
     descontoEstudante: number = 0;
 
