@@ -1,1 +1,36 @@
-<p>estante works!</p>
+﻿<app-navbar />
+<main id="conteudo" class="page-width library-page" tabindex="-1">
+  <p class="eyebrow">Seu espaço de descobertas</p>
+  <h1>Minha Estante</h1>
+  <p class="muted">
+    {{
+      auth.isAuthenticated()
+        ? 'Olá, ' + auth.usuario() + '. Encontre aqui suas obras favoritas.'
+        : 'Toda biblioteca começa com uma descoberta.'
+    }}
+  </p>
+  <div class="session-note">
+    <i class="pi pi-info-circle" aria-hidden="true"></i>
+    <p>
+      Seus favoritos ficam guardados nesta sessão. Recarregar a página limpa esta seleção. Estantes
+      de leitura, metas e anotações estarão disponíveis em uma próxima etapa.
+    </p>
+  </div>
+  <h2>
+    Favoritos <span>{{ reader.favorites().length }}</span>
+  </h2>
+  @if (reader.favorites().length) {
+    <div class="book-grid">
+      @for (book of reader.favorites(); track book.id) {
+        <app-book-card [book]="book" />
+      }
+    </div>
+  } @else {
+    <div class="state-panel">
+      <i class="pi pi-heart" aria-hidden="true"></i>
+      <h2>Guarde o que desperta sua curiosidade</h2>
+      <p>Toque no coração de uma obra para encontrá-la aqui.</p>
+      <a routerLink="/acervo" class="btn">Descobrir obras</a>
+    </div>
+  }
+</main>

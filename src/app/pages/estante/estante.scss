@@ -1,0 +1,26 @@
+﻿.library-page {
+  padding-block: 2.5rem 4rem;
+}
+.library-page h1 {
+  margin: 0.5rem 0;
+}
+.session-note {
+  display: flex;
+  align-items: start;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--color-surface-muted);
+  margin: 2rem 0;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+.session-note p {
+  margin: 0;
+}
+.session-note i {
+  margin-top: 0.25rem;
+}
+.library-page h2 > span {
+  font: 1rem var(--font-sans);
+  color: var(--color-text-muted);
+}

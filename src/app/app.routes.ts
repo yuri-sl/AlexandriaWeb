@@ -1,36 +1,47 @@
-import { Routes } from '@angular/router';
-import { Shell } from './layout/shell/shell';
-import { Landing } from './pages/landing/landing';
-import { Login } from './pages/login/login';
-import { Dashboard } from './pages/dashboard/dashboard';
-import { GestaoLivros } from './pages/gestao-livros/gestao-livros';
+﻿import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth-guard';
-import { Acervo } from './pages/acervo/acervo';
-import { View } from './pages/acervo/view/view';
-import { Carrinho } from './pages/carrinho/carrinho';
-import { Estante } from './pages/estante/estante';
-
+import { adminGuard } from './guards/admin-guard';
 export const routes: Routes = [
-  // ---- Public pages ----
-  { path: '', component: Landing, pathMatch: 'full' },
-  { path: 'login', component: Login },
-  { path: 'acervo', component: Acervo},
-  { path: 'acervo/view', component: View},
-  { path: 'carrinho', component: Carrinho},
-  {path: 'estante', component:Estante},
-
-  // ---- Authenticated area wrapped by the dashboard shell ----
   {
     path: '',
-    component: Shell,
+    loadComponent: () => import('./pages/landing/landing').then((m) => m.Landing),
+    pathMatch: 'full',
+  },
+  { path: 'login', loadComponent: () => import('./pages/login/login').then((m) => m.Login) },
+  {
+    path: 'acervo/view',
+    loadComponent: () => import('./pages/acervo/view/view').then((m) => m.View),
+  },
+  { path: 'acervo', loadComponent: () => import('./pages/acervo/acervo').then((m) => m.Acervo) },
+  {
+    path: 'marketplace',
+    loadComponent: () => import('./pages/acervo/acervo').then((m) => m.Acervo),
+    data: { commercial: true },
+  },
+  {
+    path: 'carrinho',
+    loadComponent: () => import('./pages/carrinho/carrinho').then((m) => m.Carrinho),
+  },
+  {
+    path: 'estante',
+    loadComponent: () => import('./pages/estante/estante').then((m) => m.Estante),
+  },
+  {
+    path: '',
+    loadComponent: () => import('./layout/shell/shell').then((m) => m.Shell),
     canActivate: [authGuard],
     children: [
-      { path: 'painel', component: Dashboard },
-      { path: 'acervo', component: GestaoLivros },
-      // legacy path kept so older links keep working
-      { path: 'gestao', redirectTo: 'acervo', pathMatch: 'full' },
+      {
+        path: 'painel',
+        loadComponent: () => import('./pages/dashboard/dashboard').then((m) => m.Dashboard),
+      },
+      {
+        path: 'gestao',
+        loadComponent: () =>
+          import('./pages/gestao-livros/gestao-livros').then((m) => m.GestaoLivros),
+        canActivate: [adminGuard],
+      },
     ],
   },
-
   { path: '**', redirectTo: '' },
 ];

@@ -1,3 +1,7 @@
+﻿import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { MessageService } from 'primeng/api';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { View } from './view';
@@ -8,9 +12,14 @@ describe('View', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [View]
-    })
-    .compileComponents();
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        MessageService,
+      ],
+      imports: [View],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(View);
     component = fixture.componentInstance;

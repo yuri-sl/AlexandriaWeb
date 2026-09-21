@@ -1,113 +1,266 @@
-<app-navbar></app-navbar>
-
-<div class="header">
-    <h2>Acervo</h2>
-    <p-floatlabel>
-        <input pInputText id="over_label" [(ngModel)]="stringBusca">
-        <label for="over_label">Buscar por obra ou autor</label>
-    </p-floatlabel>
-    <p-inputnumber [(ngModel)]="limiteCompra" [showButtons]="false" [min]="0" [max]="500">
-    </p-inputnumber>
-
-    <p-slider [(ngModel)]="limiteCompra" [min]="0" [max]="500">
-    </p-slider>
-    <p-dataview #dv [value]="products()" [layout]="layout">
-        <ng-template #header>
-            <div class="flex justify-end">
-                <p-selectbutton [(ngModel)]="layout" [options]="options" [allowEmpty]="false">
-                    <ng-template #item let-item>
-                        <i class="pi " [ngClass]="{ 'pi-bars': item === 'list', 'pi-table': item === 'grid' }"></i>
-                    </ng-template>
-                </p-selectbutton>
-            </div>
-        </ng-template>
-        <ng-template #list let-items>
-            @for (item of items; track item.id; let first = $first) {
-            <div>
-                <div class="flex flex-col sm:flex-row sm:items-center p-5 gap-4"
-                    [ngClass]="{ 'border-t border-surface-200 dark:border-surface-700': !first }">
-                    <div class="md:w-40 relative">
-                        <img class="block xl:block mx-auto rounded-sm w-full"
-                            [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + item.image"
-                            [alt]="item.name" />
-                        <p-tag [value]="item.inventoryStatus" [severity]="getSeverity(item)"
-                            class="absolute dark:bg-surface-900!" [style.left.px]="4" [style.top.px]="4" />
-                    </div>
-                    <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-5">
-                        <div class="flex flex-row md:flex-col justify-between items-start gap-2">
-                            <div>
-                                <span class="font-medium text-surface-500 dark:text-surface-400 text-sm">{{
-                                    item.category }}</span>
-                                <div class="font-medium mt-1">{{ item.name }}</div>
-                            </div>
-                            <div class="bg-surface-100 p-1" style="border-radius: 30px">
-                                <div class="bg-surface-0 flex items-center gap-2 justify-center py-0.5 px-1.5"
-                                    style="border-radius: 30px; box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 2px 0px rgba(0, 0, 0, 0.06)">
-                                    <span class="text-surface-900 font-medium text-xs">{{ item.rating }}</span>
-                                    <i class="pi pi-star-fill text-yellow-500"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-col md:items-end gap-7">
-                            <span class="font-semibold">{{ item.price | currency: 'USD' }}</span>
-                            <div class="flex flex-row-reverse md:flex-row gap-2">
-                                <p-button [outlined]="true" icon="pi pi-heart" />
-                                <p-button [disabled]="item.inventoryStatus === 'OUTOFSTOCK'"
-                                    styleClass="flex-auto md:flex-initial whitespace-nowrap" icon="pi pi-shopping-cart"
-                                    label="Buy Now" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+﻿<app-navbar />
+<main id="conteudo" class="page-width catalog" tabindex="-1">
+  <header class="catalog-heading">
+    <p class="eyebrow">
+      {{ commercial ? 'Livros para guardar por perto' : 'Referências para novos caminhos' }}
+    </p>
+    <h1>{{ commercial ? 'Marketplace' : 'Acervo Acadêmico' }}</h1>
+    <p>
+      {{
+        commercial
+          ? 'Encontre sua próxima leitura entre as obras do nosso catálogo.'
+          : 'Explore ideias, autores e áreas do conhecimento.'
+      }}
+    </p>
+  </header>
+  <div class="catalog-search">
+    <label class="sr-only" for="catalog-query">Pesquisar título ou autor</label
+    ><i class="pi pi-search" aria-hidden="true"></i
+    ><input
+      pInputText
+      id="catalog-query"
+      type="search"
+      placeholder="Busque por título ou autor"
+      [ngModel]="query()"
+      (ngModelChange)="setFilter('q', $event)"
+    /><span>Título · Autor</span>
+  </div>
+  <div class="catalog-layout">
+    <aside class="desktop-filters" aria-label="Filtros do catálogo">
+      @if (!filtersOpen) {
+        <ng-container *ngTemplateOutlet="filters; context: { prefix: 'desktop' }" />
+      }
+    </aside>
+    <section
+      class="results"
+      aria-label="Resultados da pesquisa"
+      [attr.aria-busy]="catalog.loading()"
+    >
+      <div class="toolbar">
+        <p aria-live="polite">
+          <strong>{{ filtered().length }}</strong>
+          {{ filtered().length === 1 ? 'obra encontrada' : 'obras encontradas' }}
+          @if (query()) {
+            <span> para “{{ query() }}”</span>
+          }
+        </p>
+        <button type="button" class="btn btn-outline mobile-filter" (click)="filtersOpen = true">
+          <i class="pi pi-filter" aria-hidden="true"></i> Filtros
+        </button>
+        <div class="sort">
+          <label for="sort">Ordenar</label
+          ><select id="sort" [ngModel]="sort()" (ngModelChange)="setFilter('ordem', $event)">
+            <option value="titulo">Título A–Z</option>
+            <option value="autor">Autor A–Z</option>
+            @if (commercial) {
+              <option value="preco">Menor preço</option>
+              <option value="preco-desc">Maior preço</option>
             }
-        </ng-template>
-        <ng-template #grid let-items>
-            <div class="grid grid-cols-12 gap-4">
-                @for (product of items; track product.id) {
-                <div class="col-span-12 sm:col-span-6 md:col-span-4 xl:col-span-6 p-2">
-                    <div
-                        class="p-5 border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 rounded-sm flex flex-col">
-                        <div class="bg-surface-50 flex justify-center rounded-sm p-4">
-                            <div class="relative mx-auto">
-                                <img class="rounded-sm w-full"
-                                    [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image"
-                                    [alt]="product.name" style="max-width: 300px" />
-                                <p-tag [value]="product.inventoryStatus" [severity]="getSeverity(product)"
-                                    class="absolute dark:bg-surface-900!" [style.left.px]="4" [style.top.px]="4" />
-                            </div>
-                        </div>
-                        <div class="pt-5">
-                            <div class="flex flex-row justify-between products-start gap-2">
-                                <div>
-                                    <span class="font-medium text-surface-500 dark:text-surface-400 text-sm">{{
-                                        product.category }}</span>
-                                    <div class="font-medium mt-1">{{ product.name }}</div>
-                                </div>
-                                <div class="bg-surface-100 p-1" style="border-radius: 30px; height:100%">
-                                    <div class="bg-surface-0 flex products-center gap-2 justify-center py-0.5 px-1.5"
-                                        style="border-radius: 30px; box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 2px 0px rgba(0, 0, 0, 0.06)">
-                                        <span class="text-surface-900 font-medium text-sm">{{ product.rating }}</span>
-                                        <i class="pi pi-star-fill text-yellow-500"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-5 mt-5">
-                                <span class="font-semibold">{{ product.price | currency: 'USD' }}</span>
-                                <div class="flex gap-2">
-                                    <p-button [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"
-                                        styleClass="flex-auto whitespace-nowrap" icon="pi pi-shopping-cart"
-                                        label="Buy Now"
-                                        (click)="wishListService.addWishList(product)"
-                                         />
-                                    <p-button [outlined]="true" icon="pi pi-heart" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                }
-            </div>
-        </ng-template>
-    </p-dataview>
-</div>
+          </select>
+        </div>
+        <div class="view-toggle" role="group" aria-label="Visualização">
+          <button
+            class="icon-button"
+            type="button"
+            aria-label="Visualizar em grade"
+            [attr.aria-pressed]="layout() === 'grid'"
+            (click)="setFilter('layout', 'grid')"
+          >
+            <i class="pi pi-th-large" aria-hidden="true"></i></button
+          ><button
+            class="icon-button"
+            type="button"
+            aria-label="Visualizar em lista"
+            [attr.aria-pressed]="layout() === 'list'"
+            (click)="setFilter('layout', 'list')"
+          >
+            <i class="pi pi-list" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+      @if (hasFilters()) {
+        <div class="active-filters" aria-label="Filtros aplicados">
+          @if (query()) {
+            <button
+              class="chip"
+              (click)="setFilter('q', null)"
+              [attr.aria-label]="'Remover busca ' + query()"
+            >
+              {{ query() }} ×
+            </button>
+          }
+          @if (area()) {
+            <button
+              class="chip"
+              (click)="setFilter('area', null)"
+              [attr.aria-label]="'Remover área ' + area()"
+            >
+              {{ area() }} ×
+            </button>
+          }
+          @if (author()) {
+            <button
+              class="chip"
+              (click)="setFilter('autor', null)"
+              [attr.aria-label]="'Remover autor ' + author()"
+            >
+              {{ author() }} ×
+            </button>
+          }
+          @if (available()) {
+            <button
+              class="chip"
+              (click)="setFilter('disponivel', null)"
+              aria-label="Remover filtro de disponibilidade"
+            >
+              Em estoque ×
+            </button>
+          }
+          @if (priceApplied()) {
+            <button
+              class="chip"
+              (click)="setFilter('preco', null)"
+              aria-label="Remover limite de preço"
+            >
+              Até R$ {{ price() }} ×
+            </button>
+          }
+          <button class="clear" type="button" (click)="clear()">Limpar todos</button>
+        </div>
+      }
+      @if (catalog.loading()) {
+        <div class="catalog-grid" role="status" aria-label="Carregando catálogo">
+          @for (item of [1, 2, 3, 4, 5, 6]; track item) {
+            <p-skeleton height="340px" />
+          }
+        </div>
+      } @else if (catalog.error()) {
+        <div class="state-panel" role="alert">
+          <h2>Não foi possível abrir o acervo</h2>
+          <p>{{ catalog.error() }}</p>
+          <button type="button" class="btn" (click)="catalog.load(true)">Tentar novamente</button>
+        </div>
+      } @else if (filtered().length === 0) {
+        <div class="state-panel">
+          <i class="pi pi-search" aria-hidden="true"></i>
+          <h2>
+            {{ hasFilters() ? 'Vamos tentar outro caminho?' : 'O acervo está sendo preparado' }}
+          </h2>
+          <p>
+            {{
+              hasFilters()
+                ? 'Nenhuma obra corresponde à sua busca. Experimente outro termo ou remova os filtros.'
+                : 'Ainda não há obras cadastradas para apresentar.'
+            }}
+          </p>
+          @if (hasFilters()) {
+            <button type="button" class="btn btn-outline" (click)="clear()">Limpar filtros</button>
+          }
+        </div>
+      } @else {
+        <div [class.catalog-grid]="layout() === 'grid'" [class.catalog-list]="layout() === 'list'">
+          @for (book of paged(); track book.id) {
+            <app-book-card
+              [book]="book"
+              [variant]="commercial ? 'commercial' : 'academic'"
+              [list]="layout() === 'list'"
+            />
+          }
+        </div>
+        @if (filtered().length > 12) {
+          <p-paginator
+            [first]="first()"
+            [rows]="12"
+            [totalRecords]="filtered().length"
+            (onPageChange)="first.set($event.first ?? 0)"
+          />
+        }
+      }
+    </section>
+  </div>
+</main>
+<ng-template #filters let-prefix="prefix"
+  ><div class="filter-heading">
+    <h2>Refinar descoberta</h2>
+    @if (hasFilters()) {
+      <button class="clear" type="button" (click)="clear()">Limpar</button>
+    }
+  </div>
+  <div class="filter-field">
+    <label [for]="prefix + '-area'">Área do conhecimento</label
+    ><select [id]="prefix + '-area'" [ngModel]="area()" (ngModelChange)="setFilter('area', $event)">
+      <option value="">Todas as áreas</option>
+      @if (area() && !catalog.areas().includes(area())) {
+        <option [value]="area()">{{ area() }}</option>
+      }
+      @for (item of catalog.areas(); track item) {
+        <option [value]="item">{{ item }}</option>
+      }
+    </select>
+  </div>
+  <div class="filter-field">
+    <label [for]="prefix + '-author'">Autor</label
+    ><select
+      [id]="prefix + '-author'"
+      [ngModel]="author()"
+      (ngModelChange)="setFilter('autor', $event)"
+    >
+      <option value="">Todos os autores</option>
+      @for (item of catalog.authors(); track item) {
+        <option [value]="item">{{ item }}</option>
+      }
+    </select>
+  </div>
+  @if (commercial) {
+    <div class="filter-field">
+      <label [for]="prefix + '-price'">Preço máximo</label
+      ><p-inputnumber
+        [inputId]="prefix + '-price'"
+        [ngModel]="price()"
+        (ngModelChange)="setPrice($event)"
+        mode="currency"
+        currency="BRL"
+        locale="pt-BR"
+        [min]="0"
+        [max]="catalog.maxPrice()"
+      /><p-slider
+        [ngModel]="price()"
+        (ngModelChange)="setPrice($event)"
+        [min]="0"
+        [max]="catalog.maxPrice()"
+        [step]="1"
+        ariaLabel="Preço máximo em reais"
+      />
+    </div>
+    <label class="availability"
+      ><input
+        type="checkbox"
+        [ngModel]="available()"
+        (ngModelChange)="setFilter('disponivel', $event)"
+      />
+      Somente em estoque</label
+    >
+  }
+  <div class="filter-note">
+    <i class="pi pi-info-circle" aria-hidden="true"></i>
+    <p>
+      Pesquise pelos dados disponíveis no acervo. ISBN, editora, idioma e edição ainda não estão
+      disponíveis para consulta.
+    </p>
+  </div></ng-template
+>
+<p-drawer
+  [(visible)]="filtersOpen"
+  header="Filtros do acervo"
+  [style]="{ width: 'min(90vw, 360px)' }"
+>
+  @if (filtersOpen) {
+    <ng-container *ngTemplateOutlet="filters; context: { prefix: 'mobile' }" /><button
+      type="button"
+      class="btn apply-filters"
+      (click)="filtersOpen = false"
+    >
+      Ver {{ filtered().length }} resultados
+    </button>
+  }
+</p-drawer>

@@ -1,3 +1,7 @@
+﻿import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { MessageService } from 'primeng/api';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Carrinho } from './carrinho';
@@ -8,9 +12,14 @@ describe('Carrinho', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Carrinho]
-    })
-    .compileComponents();
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        MessageService,
+      ],
+      imports: [Carrinho],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(Carrinho);
     component = fixture.componentInstance;

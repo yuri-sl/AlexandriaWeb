@@ -1,361 +1,92 @@
-$lapis: rgb(15, 30, 56);
-$papiro: rgb(242, 231, 202);
-$borda-dourada: rgba(201, 162, 39, 0.4);
-$borda-suave: rgba(20, 36, 63, 0.2);
-
-@mixin secao-titulo {
-    margin: 0 0 16px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 20px;
-    font-weight: bold;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: rgb(20, 36, 63);
+﻿.cart-page {
+  padding-block: 2.5rem 4rem;
 }
-
-@mixin opcao-card {
-    border-radius: 5px;
-    border: 1px solid $borda-suave;
-    padding: 16px 18px;
-    background: #fff;
-    cursor: pointer;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
-
-    &:hover {
-        border-color: $borda-dourada;
-        box-shadow: inset 0 0 0 1px $borda-dourada;
-    }
-
-    &.selected {
-        border-color: var(--alx-gold-500);
-        box-shadow: inset 0 0 0 1px var(--alx-gold-500);
-    }
+.cart-page h1 {
+  margin: 0.5rem 0;
 }
-
-.container {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 32px;
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 2rem 3rem;
-    box-sizing: border-box;
+.cart-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+  margin-top: 2rem;
 }
-
-// COLUNA ESQUERDA
-.left-container {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+.cart-item {
+  display: grid;
+  grid-template-columns: 65px 1fr 130px;
+  gap: 1rem;
+  padding-block: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
 }
-
-.titulo {
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
-    gap: 12px;
-
-    h1 {
-        margin: 0;
-    }
-
-    span {
-        color: var(--alx-text-muted);
-        font-size: 0.95rem;
-    }
+.cart-item h2 {
+  font-size: 1.6rem;
+  margin: 0;
 }
-
-// ITENS DO CARRINHO
-.produto {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 16px 20px;
-    background: var(--alx-surface);
-    border: 1px solid var(--alx-surface-line);
-    border-radius: var(--alx-radius);
-
-    .card-info-texto {
-        min-width: 0;
-
-        h3 {
-            margin: 0 0 4px;
-            font-size: 1.15rem;
-            color: var(--alx-lapis-800);
-        }
-
-        p {
-            margin: 0;
-            font-family: var(--font-serif);
-            font-style: italic;
-            font-size: 1rem;
-            color: var(--alx-text-muted);
-        }
-    }
-
-    .card-right {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 20px;
-        flex-shrink: 0;
-
-        input {
-            width: 64px;
-            padding: 6px 8px;
-            border: 1px solid $borda-suave;
-            border-radius: 5px;
-            background: #fff;
-            font: inherit;
-            color: var(--alx-text);
-            text-align: center;
-
-            &:focus-visible {
-                outline: 2px solid var(--alx-gold-500);
-                outline-offset: 1px;
-            }
-        }
-
-        .preco-item {
-            min-width: 80px;
-            text-align: right;
-            font-family: var(--font-display);
-            font-size: 1.1rem;
-            color: var(--alx-lapis-800);
-        }
-
-        .remover {
-            padding: 0;
-            border: 0;
-            background: none;
-            font: inherit;
-            font-size: 0.85rem;
-            color: var(--alx-carnelian);
-            text-decoration: underline;
-            cursor: pointer;
-
-            &:hover {
-                color: var(--alx-terracotta);
-            }
-        }
-    }
+.cart-item a {
+  text-decoration: none;
 }
-
-// ENTREGA E PAGAMENTO
-.entrega,
-.pagamento {
-    padding: 20px;
-    background: var(--alx-surface);
-    border: 1px solid var(--alx-surface-line);
-    border-radius: var(--alx-radius);
-
-    h2 {
-        @include secao-titulo;
-    }
+.cart-item p,
+.cart-item small {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
 }
-
-.entrega-opcoes {
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-
-    button {
-        @include opcao-card;
-        flex: 1;
-        font: inherit;
-        color: var(--alx-text);
-        text-align: start;
-    }
+.mini-cover {
+  height: 95px;
+  background: #174d56;
+  color: white;
+  display: grid;
+  place-items: center;
+  border-left: 4px solid #3e6b72;
 }
-
-.pagamento-opcoes {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.item-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
-
-.forma-pagamento {
-    @include opcao-card;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    input {
-        margin: 0;
-        accent-color: var(--alx-gold-600);
-    }
-
-    .desconto {
-        margin-left: auto;
-        padding: 2px 10px;
-        border-radius: 999px;
-        font-size: 0.78rem;
-        font-weight: 600;
-        color: #fff;
-        background: var(--alx-malachite);
-    }
+.item-actions label {
+  font-size: 0.7rem;
 }
-
-// COLUNA DIREITA (RESUMO)
-.right-container {
-    flex: 0 0 340px;
-    box-sizing: border-box;
-    position: sticky;
-    top: 16px;
-    margin-top: 32px;
-    padding: 30px;
-    background-color: $lapis;
-    color: $papiro;
-    border-radius: 5px;
+.item-actions button {
+  border: 0;
+  background: transparent;
+  color: var(--color-danger);
+  text-align: left;
+  text-decoration: underline;
+  min-height: 44px;
+  font-size: 0.75rem;
 }
-
-.resumo-compras {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.order-summary {
+  background: var(--color-surface-muted);
+  padding: 1.5rem;
+  align-self: start;
 }
-
-.resumo-titulo {
-    margin: 0;
-    font-size: 1.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--alx-gold-300);
+.order-summary h2 {
+  font-size: 1.8rem;
+  margin-top: 0;
 }
-
-.resumo-linhas {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin: 0;
-    font-size: 14px;
+.order-summary > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.875rem;
 }
-
-.resumo-linha {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-
-    dt,
-    dd {
-        margin: 0;
-    }
-
-    dd {
-        white-space: nowrap;
-    }
+.order-summary p {
+  font-size: 0.8rem;
+  margin-block: 1.5rem;
 }
-
-.cupom {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-
-    input {
-        flex: 1;
-        min-width: 0;
-        padding: 8px 10px;
-        border: 1px solid rgba(242, 231, 202, 0.3);
-        border-radius: 5px;
-        background: rgba(255, 255, 255, 0.08);
-        font: inherit;
-        color: $papiro;
-
-        &::placeholder {
-            color: rgba(242, 231, 202, 0.55);
-        }
-
-        &:focus-visible {
-            outline: 2px solid var(--alx-gold-400);
-            outline-offset: 1px;
-        }
-    }
-
-    .btn-aplicar {
-        padding: 8px 14px;
-        border: 1px solid var(--alx-gold-500);
-        border-radius: 5px;
-        background: transparent;
-        font: inherit;
-        color: var(--alx-gold-300);
-        cursor: pointer;
-
-        &:hover {
-            background: rgba(201, 162, 39, 0.15);
-        }
-    }
-}
-
-.resumo-total {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding-top: 16px;
-    border-top: 1px solid rgba(242, 231, 202, 0.25);
-
-    span {
-        font-size: 1.1rem;
-        color: var(--alx-gold-300);
-    }
-
-    strong {
-        font-family: var(--font-display);
-        font-size: 1.75rem;
-        color: var(--alx-gold-300);
-    }
-}
-
-.btn-finalizar {
-    padding: 14px;
-    border: 0;
-    border-radius: 5px;
-    background: var(--alx-gold-500);
-    font: inherit;
-    font-weight: 600;
-    color: var(--alx-lapis-950);
-    cursor: pointer;
-    transition: background 0.15s ease;
-
-    &:hover {
-        background: var(--alx-gold-400);
-    }
-
-    &:focus-visible {
-        outline: 2px solid var(--alx-gold-300);
-        outline-offset: 2px;
-    }
-}
-
-// RESPONSIVO
-@media (max-width: 900px) {
-    .container {
-        flex-direction: column;
-        gap: 16px;
-        padding: 0 1rem 2rem;
-    }
-
-    .left-container,
-    .right-container {
-        width: 100%;
-    }
-
-    .right-container {
-        flex: none;
-        position: static;
-        margin-top: 0;
-    }
-
-    .produto {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .entrega-opcoes {
-        flex-direction: column;
-    }
+@media (max-width: 768px) {
+  .cart-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .cart-item {
+    grid-template-columns: 45px 1fr;
+  }
+  .mini-cover {
+    height: 65px;
+  }
+  .item-actions {
+    grid-column: 2;
+    max-width: 180px;
+  }
 }

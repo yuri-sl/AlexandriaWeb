@@ -25,7 +25,7 @@ export class Livros {
   };
 
   listarLivros(){
-    return this.http.get<livro>(this.apiUrl);
+    return this.http.get<livro[] | livro>(this.apiUrl);
   }
 
   postCriarLivro(body:livro):Observable<livro>{

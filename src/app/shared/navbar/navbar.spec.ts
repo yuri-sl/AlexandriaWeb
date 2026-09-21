@@ -1,3 +1,7 @@
+﻿import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { MessageService } from 'primeng/api';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Navbar } from './navbar';
@@ -8,9 +12,14 @@ describe('Navbar', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Navbar]
-    })
-    .compileComponents();
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        MessageService,
+      ],
+      imports: [Navbar],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(Navbar);
     component = fixture.componentInstance;

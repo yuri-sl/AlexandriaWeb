@@ -1,11 +1,11 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+﻿import { Component, signal } from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ToastModule],
+  imports: [RouterOutlet, RouterLink, ToastModule],
   providers: [MessageService],
   templateUrl: './app.html',
   styleUrl: './app.scss',
@@ -13,5 +13,4 @@ import { ToastModule } from 'primeng/toast';
 export class App {
   protected readonly title = signal('Bibliotheca Alexandrina');
   protected readonly anoAtual = new Date().getFullYear();
-
 }

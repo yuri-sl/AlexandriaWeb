@@ -1,121 +1,63 @@
-<app-navbar></app-navbar>
-
-<main class="container">
-
-    <div class="left-container">
-
-        <header class="titulo">
-            <h1>Meu carrinho</h1>
-            <span>{{(this.listaCarrinho.length)}} exemplares</span>
-        </header>
-
-        @for (item of listaCarrinho; track $index) {
-            <article class="produto">
-                <div class="card-info-texto">
-                    <h3>{{ item.titulo }}</h3>
-                    <p>{{ item.autor }}</p>
-                </div>
-                <div class="card-right">
-                    <input
-                        type="number"
-                        min="1"
-                        max="10"
-                        aria-label="Quantidade"
-                        [value]="item.quantidade"
-                        (input)="item.quantidade = $any($event.target).valueAsNumber">
-                    <span class="preco-item">R$ {{ atualizarValor(item) }}</span>
-                    <button type="button" (click)="listaCarrinho.splice(listaCarrinho.indexOf(item), 1)" class="remover">remover</button>
-                </div>
-            </article>
-        }
-
-        @for (item of wishes(); track $index) {
-            <article class="produto">
-                <div class="card-info-texto">
-                    <h3>{{ item.name }}</h3>
-                    <p>{{ item.image }}</p>
-                </div>
-                <div class="card-right">
-                    <input
-                        type="number"
-                        min="1"
-                        max="10"
-                        aria-label="Quantidade"
-                        [value]="item.price"
-                        (input)="item.rating = $any($event.target).valueAsNumber">
-                    <button type="button" (click)="wishListService.removeFromWishList(item)" class="remover">remover</button>
-                </div>
-            </article>
-        }
-
-        <section class="entrega">
-            <h2>Entrega</h2>
-            <div class="entrega-opcoes">
-                <button
-                    type="button"
-                    [class.selected]="entregaValida('correios')"
-                    [attr.aria-pressed]="entregaValida('correios')"
-                    (click)="alternarEntrega('correios')">Correio Grátis</button>
-                <button
-                    type="button"
-                    [class.selected]="entregaValida('expresso')"
-                    [attr.aria-pressed]="entregaValida('expresso')"
-                    (click)="alternarEntrega('expresso')">Expresso</button>
+﻿<app-navbar />
+<main id="conteudo" class="page-width cart-page" tabindex="-1">
+  <p class="eyebrow">Sua próxima leitura está mais perto</p>
+  <h1>Meu carrinho</h1>
+  <p class="muted">{{ reader.count() }} exemplares · Carrinho desta sessão</p>
+  @if (reader.cart().length) {
+    <div class="cart-layout">
+      <section aria-label="Itens do carrinho">
+        @for (entry of reader.cart(); track entry.book.id) {
+          <article class="cart-item">
+            <div class="mini-cover" aria-hidden="true"><i class="pi pi-book"></i></div>
+            <div>
+              <a routerLink="/acervo/view" [queryParams]="{ id: entry.book.id, modo: 'commercial' }"
+                ><h2>{{ entry.book.titulo }}</h2></a
+              >
+              <p>{{ entry.book.autor }}</p>
+              <small>{{ entry.book.estoque }} exemplares em estoque</small>
+              <p>{{ entry.book.preco | currency: 'BRL' }} por exemplar</p>
             </div>
-        </section>
-
-        <section class="pagamento">
-            <h2>Pagamento</h2>
-            <div class="pagamento-opcoes">
-                <label class="forma-pagamento" [class.selected]="tipoPagamento === 'credito'">
-                    <input type="radio" name="pagamento" [checked]="tipoPagamento === 'credito'" (change)="tipoPagamento = 'credito'">
-                    <span>Cartão de Crédito</span>
-                </label>
-                <label class="forma-pagamento" [class.selected]="tipoPagamento === 'pix'">
-                    <input type="radio" name="pagamento" [checked]="tipoPagamento === 'pix'" (change)="tipoPagamento = 'pix'">
-                    <span>Pix</span>
-                    <span class="desconto">5% desconto</span>
-                </label>
-                <label class="forma-pagamento" [class.selected]="tipoPagamento === 'boleto'">
-                    <input type="radio" name="pagamento" [checked]="tipoPagamento === 'boleto'" (change)="tipoPagamento = 'boleto'">
-                    <span>Boleto</span>
-                </label>
+            <div class="item-actions">
+              <label [for]="'quantity-' + entry.book.id">Quantidade</label
+              ><p-inputnumber
+                [inputId]="'quantity-' + entry.book.id"
+                [ngModel]="entry.quantity"
+                (ngModelChange)="reader.quantity(entry.book.id, $event)"
+                [min]="1"
+                [max]="entry.book.estoque"
+                [showButtons]="true"
+                [allowEmpty]="false"
+                [useGrouping]="false"
+              /><strong>{{ entry.book.preco * entry.quantity | currency: 'BRL' }}</strong
+              ><button
+                type="button"
+                (click)="reader.remove(entry.book.id)"
+                [attr.aria-label]="'Remover ' + entry.book.titulo"
+              >
+                Remover
+              </button>
             </div>
-        </section>
-
+          </article>
+        }
+      </section>
+      <aside class="order-summary">
+        <h2>Resumo do pedido</h2>
+        <div>
+          <span>Subtotal · {{ reader.count() }} itens</span
+          ><strong>{{ reader.subtotal() | currency: 'BRL' }}</strong>
+        </div>
+        <p class="muted">
+          Entrega e pagamento ainda não estão disponíveis. Nenhuma compra será cobrada nesta versão.
+        </p>
+        <a routerLink="/marketplace" class="btn btn-outline">Continuar explorando</a>
+      </aside>
     </div>
-
-    <aside class="right-container">
-        <section class="resumo-compras">
-            <h2 class="resumo-titulo">Resumo</h2>
-
-            <dl class="resumo-linhas">
-                <div class="resumo-linha">
-                    <dt>Subtotal ({{(this.listaCarrinho.length)}} obras)</dt>
-                    <dd>R$ {{totalCompra}}</dd>
-                </div>
-                <div class="resumo-linha">
-                    <dt>Correios</dt>
-                    <dd>Grátis</dd>
-                </div>
-                <div class="resumo-linha">
-                    <dt>Desconto de estudante (10%)</dt>
-                    <dd>- R$ {{descontoEstudante}}</dd>
-                </div>
-            </dl>
-
-            <div class="cupom">
-                <input type="text" placeholder="Cupom de desconto" aria-label="Cupom de desconto">
-                <button type="button" class="btn-aplicar">Aplicar</button>
-            </div>
-
-            <div class="resumo-total">
-                <span>Total</span>
-                <strong>R$ 828,00</strong>
-            </div>
-
-            <button type="button" class="btn-finalizar">Finalizar Compra</button>
-        </section>
-    </aside>
-
+  } @else {
+    <div class="state-panel">
+      <i class="pi pi-shopping-bag" aria-hidden="true"></i>
+      <h2>Sua próxima descoberta espera por você</h2>
+      <p>Explore os livros disponíveis e adicione suas escolhas ao carrinho.</p>
+      <a routerLink="/marketplace" class="btn">Explorar marketplace</a>
+    </div>
+  }
 </main>

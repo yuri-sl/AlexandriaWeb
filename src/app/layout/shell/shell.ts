@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+﻿import { Component, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { Auth } from '../../services/auth';
@@ -36,9 +36,10 @@ export class Shell {
 
   protected readonly nav: NavItem[] = [
     { label: 'Painel', icon: 'pi pi-th-large', route: '/painel', glyph: '𓂀' },
-    { label: 'Acervo', icon: 'pi pi-book', route: '/acervo', glyph: '𓍝' },
+    { label: 'Gestão de livros', icon: 'pi pi-book', route: '/gestao', glyph: '𓍝' },
     { label: 'Escribas', icon: 'pi pi-users', route: '/escribas', glyph: '𓀀' },
     { label: 'Relatórios', icon: 'pi pi-chart-line', route: '/relatorios', glyph: '𓆼' },
     { label: 'Configurações', icon: 'pi pi-cog', route: '/config', glyph: '𓋹' },
   ];
 }
+

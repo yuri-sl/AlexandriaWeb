@@ -1,12 +1,33 @@
-<router-outlet />
-<p-toast></p-toast>
-
-<footer class="lp-footer">
-<div class="lp-footer-brand">
-    <span class="lp-brand-mark">𓋹</span>
-    <span>Bibliotheca Alexandrina</span>
-</div>
-<p class="lp-footer-note">
-    © {{ anoAtual }} — Gabinete Imperialium de Registros · Casa do Saber Etéreo
-</p>
+﻿<router-outlet />
+<p-toast />
+<footer class="site-footer">
+  <div class="footer-grid page-width">
+    <div>
+      <p class="eyebrow">Biblioteca Alexandria</p>
+      <h2>O acervo vivo.</h2>
+      <p>Um lugar para descobrir ideias,<br />conectar saberes e cultivar leituras.</p>
+    </div>
+    <nav aria-label="Explore">
+      <h3>Explore</h3>
+      <a routerLink="/marketplace">Marketplace</a><a routerLink="/acervo">Acervo Acadêmico</a
+      ><a routerLink="/estante">Minha Estante</a>
+    </nav>
+    <nav aria-label="A biblioteca">
+      <h3>A biblioteca</h3>
+      <a routerLink="/" fragment="sobre">Nossa proposta</a
+      ><a routerLink="/" fragment="areas">Áreas do conhecimento</a
+      ><a routerLink="/" fragment="ajuda">Ajuda e informações</a>
+    </nav>
+    <div>
+      <h3>Sua próxima descoberta</h3>
+      <p>Pesquise por título ou autor e encontre novos caminhos para sua leitura.</p>
+      <a routerLink="/acervo"
+        >Explorar o acervo <i class="pi pi-arrow-up-right" aria-hidden="true"></i
+      ></a>
+    </div>
+  </div>
+  <div class="footer-bottom page-width">
+    <span>© {{ anoAtual }} Biblioteca Alexandria</span
+    ><span>Conhecimento que permanece. Ideias que se encontram.</span>
+  </div>
 </footer>

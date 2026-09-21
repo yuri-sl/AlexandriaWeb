@@ -1,32 +1,85 @@
-/* ===================== Footer ===================== */
-.lp-footer {
+﻿.detail-page {
+  padding-block: 2rem 4rem;
+}
+.breadcrumb {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
   flex-wrap: wrap;
-  padding: 28px 6vw;
-  background: var(--alx-lapis-950);
-  color: var(--alx-papyrus-200);
-  border-top: 3px solid var(--alx-gold-600);
+  gap: 0.65rem;
+  font-size: 0.75rem;
+  margin-bottom: 2rem;
 }
-.lp-footer-brand {
+.detail-grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 2fr;
+  gap: 4rem;
+}
+.cover-placeholder {
+  background: #174d56;
+  color: #fff5df;
+  padding: 3rem 2rem;
+  text-align: center;
+  aspect-ratio: 2/3;
+  max-height: 480px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
-  font-family: var(--font-display);
-  color: #fff;
+  justify-content: center;
+  border-left: 8px solid #ffffff25;
+  box-shadow: var(--shadow-lg);
 }
-.lp-footer-note {
-  margin: 0;
+.cover-placeholder h2 {
+  color: inherit;
+}
+.cover-placeholder i {
+  font-size: 2rem;
+}
+.cover-placeholder small {
+  font-size: 0.7rem;
+}
+.detail-grid h1 {
+  margin-block: 0.5rem;
+}
+.author {
+  color: var(--color-text-muted);
+}
+.detail-grid section h2 {
+  font-size: 1.8rem;
+}
+.synopsis {
+  white-space: pre-line;
+}
+.bibliography {
+  border-block: 1px solid var(--color-border);
+  margin-block: 1.5rem;
   font-size: 0.85rem;
-  color: var(--alx-papyrus-300);
 }
-
-/* ===================== Responsive ===================== */
-@media (max-width: 760px) {
-  .lp-links { display: none; }
-  .sobre { flex-direction: column; text-align: center; gap: 20px; }
-  .sobre-glyph { font-size: 7rem; }
-  .hero-glyphs { display: none; }
+.bibliography dl > div {
+  display: flex;
+  gap: 1rem;
+}
+.bibliography dt {
+  width: 70px;
+  font-weight: 600;
+}
+.bibliography dd {
+  margin: 0;
+}
+.purchase strong {
+  font-size: 1.7rem;
+}
+.favorite {
+  margin: 1rem 0.5rem 0 0;
+}
+@media (max-width: 768px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .cover-placeholder {
+    width: min(280px, 100%);
+    margin-inline: auto;
+  }
+  .detail-grid h1 {
+    font-size: 2.6rem;
+  }
 }

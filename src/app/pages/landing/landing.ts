@@ -1,58 +1,47 @@
-import { Component, OnInit, computed, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { livro, Livros } from '../../services/livros';
+﻿import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { SkeletonModule } from 'primeng/skeleton';
 import { Navbar } from '../../shared/navbar/navbar';
-
+import { BookCard } from '../../shared/book-card/book-card';
+import { Catalog, KNOWLEDGE_AREAS } from '../../services/catalog';
+import { Auth } from '../../services/auth';
+import { ReaderState } from '../../services/reader-state';
 @Component({
   selector: 'app-landing',
-  imports: [CommonModule, RouterLink, Navbar],
+  imports: [RouterLink, FormsModule, Navbar, BookCard, SkeletonModule],
   templateUrl: './landing.html',
   styleUrl: './landing.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Landing implements OnInit {
-  private readonly livros = signal<livro[]>([]);
-
-  /** Curated cards for the public showcase. */
-  protected readonly vitrine = computed(() => this.livros().slice(0, 8));
-
-  /** Distinct genres for the "areas of knowledge" strip. */
-  protected readonly categorias = computed(() => {
-    const set = new Set(this.livros().map((l) => (l.genero || '').trim()).filter(Boolean));
-    return [...set];
-  });
-
-  protected readonly totalObras = computed(() => this.livros().length);
-
-  protected readonly anoAtual = new Date().getFullYear();
-
-  constructor(private livroService: Livros) {}
-
-  ngOnInit(): void {
-    this.livroService.listarLivros().subscribe({
-      next: (res) => {
-        const lista = Array.isArray(res) ? res : res ? [res] : [];
-        this.livros.set(lista.length ? lista : this.demo());
-      },
-      error: () => this.livros.set(this.demo()),
-    });
+export class Landing {
+  readonly catalog = inject(Catalog);
+  readonly auth = inject(Auth);
+  readonly reader = inject(ReaderState);
+  private readonly router = inject(Router);
+  readonly vitrine = computed(() => this.catalog.books().slice(0, 4));
+  readonly commercial = computed(() =>
+    this.catalog
+      .books()
+      .filter((book) => book.estoque > 0)
+      .slice(0, 4),
+  );
+  readonly areas = KNOWLEDGE_AREAS;
+  readonly icons = [
+    'pi-code',
+    'pi-cog',
+    'pi-calculator',
+    'pi-sparkles',
+    'pi-globe',
+    'pi-book',
+    'pi-building-columns',
+    'pi-comments',
+  ];
+  query = '';
+  constructor() {
+    this.catalog.load();
   }
-
-  /** Initial of the title, used to letter the decorative book spine. */
-  inicial(titulo: string): string {
-    return (titulo || '?').trim().charAt(0).toUpperCase();
-  }
-
-  private demo(): livro[] {
-    return [
-      { id: 1, titulo: 'Os Elementos', autor: 'Euclides', descricao: 'Os fundamentos da geometria, em treze livros.', genero: 'Matemática', preco: 320, estoque: 12, precoAtualizado: 352 },
-      { id: 2, titulo: 'Almagesto', autor: 'Ptolomeu', descricao: 'O grande tratado astronômico da Antiguidade.', genero: 'Astronomia', preco: 410, estoque: 4, precoAtualizado: 451 },
-      { id: 3, titulo: 'Sobre os Corpos Flutuantes', autor: 'Arquimedes', descricao: 'A origem da hidrostática.', genero: 'Física', preco: 280, estoque: 7, precoAtualizado: 308 },
-      { id: 4, titulo: 'História', autor: 'Heródoto', descricao: 'As investigações do pai da história.', genero: 'História', preco: 190, estoque: 3, precoAtualizado: 209 },
-      { id: 5, titulo: 'Geografia', autor: 'Eratóstenes', descricao: 'A medida do mundo conhecido.', genero: 'Geografia', preco: 260, estoque: 9, precoAtualizado: 286 },
-      { id: 6, titulo: 'Corpus Hippocraticum', autor: 'Hipócrates', descricao: 'A coletânea fundadora da medicina.', genero: 'Medicina', preco: 350, estoque: 2, precoAtualizado: 385 },
-      { id: 7, titulo: 'Cônicas', autor: 'Apolônio', descricao: 'O estudo das seções cônicas.', genero: 'Matemática', preco: 300, estoque: 5, precoAtualizado: 330 },
-      { id: 8, titulo: 'Ilíada', autor: 'Homero', descricao: 'A epopeia da guerra de Troia.', genero: 'Literatura', preco: 220, estoque: 15, precoAtualizado: 242 },
-    ];
+  search(): void {
+    this.router.navigate(['/acervo'], { queryParams: { q: this.query.trim() || null } });
   }
 }

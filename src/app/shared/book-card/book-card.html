@@ -1,0 +1,82 @@
+﻿<article class="book-card" [class.list]="list()">
+  <a
+    class="cover-link"
+    routerLink="/acervo/view"
+    [queryParams]="{ id: book().id, modo: variant() }"
+    [attr.aria-label]="'Ver detalhes de ' + book().titulo"
+  >
+    <div
+      class="book-cover"
+      [class.terracotta]="(book().id ?? 0) % 3 === 1"
+      [class.sand]="(book().id ?? 0) % 3 === 2"
+      aria-hidden="true"
+    >
+      <span class="cover-area">{{ book().genero || 'Alexandria' }}</span
+      ><span class="cover-title">{{ book().titulo }}</span
+      ><span class="cover-rule"></span><span class="cover-author">{{ book().autor }}</span
+      ><small>Capa não disponível</small>
+    </div>
+  </a>
+  <div class="book-info">
+    <span class="book-area">{{ book().genero || 'Área não informada' }}</span>
+    <h3>
+      <a routerLink="/acervo/view" [queryParams]="{ id: book().id, modo: variant() }">{{
+        book().titulo
+      }}</a>
+    </h3>
+    <p class="author">{{ book().autor }}</p>
+    @if (list()) {
+      <p class="description">{{ book().descricao }}</p>
+    }
+    @if (variant() === 'commercial') {
+      <div class="price-row">
+        <strong>{{ book().preco | currency: 'BRL' }}</strong
+        ><span [class.unavailable]="book().estoque < 1">{{
+          book().estoque > 0 ? 'Em estoque · ' + book().estoque : 'Indisponível'
+        }}</span>
+      </div>
+      <div class="card-actions">
+        <p-button
+          label="Adicionar"
+          icon="pi pi-plus"
+          [disabled]="book().estoque < 1 || book().id == null"
+          (onClick)="add()"
+        /><button
+          type="button"
+          class="icon-button"
+          [attr.aria-label]="
+            (reader.isFavorite(book()) ? 'Remover dos favoritos: ' : 'Favoritar: ') + book().titulo
+          "
+          [attr.aria-pressed]="reader.isFavorite(book())"
+          (click)="reader.toggleFavorite(book())"
+        >
+          <i
+            class="pi"
+            [class.pi-heart]="!reader.isFavorite(book())"
+            [class.pi-heart-fill]="reader.isFavorite(book())"
+            aria-hidden="true"
+          ></i>
+        </button>
+      </div>
+    } @else {
+      <div class="academic-actions">
+        <a routerLink="/acervo/view" [queryParams]="{ id: book().id, modo: 'academic' }"
+          >Conhecer a obra <i class="pi pi-arrow-right" aria-hidden="true"></i></a
+        ><button
+          type="button"
+          class="icon-button"
+          [attr.aria-label]="'Favoritar: ' + book().titulo"
+          [attr.aria-pressed]="reader.isFavorite(book())"
+          (click)="reader.toggleFavorite(book())"
+        >
+          <i
+            class="pi"
+            [class.pi-heart]="!reader.isFavorite(book())"
+            [class.pi-heart-fill]="reader.isFavorite(book())"
+            aria-hidden="true"
+          ></i>
+        </button>
+      </div>
+    }
+  </div>
+</article>

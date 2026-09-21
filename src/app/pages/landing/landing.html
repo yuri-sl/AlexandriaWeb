@@ -1,108 +1,225 @@
-<div class="landing">
-  <app-navbar></app-navbar>
-  <!-- ===================== Hero ===================== -->
-  <section class="hero">
-    <div class="hero-inner">
-      <p class="hero-eyebrow">O marketplace do ambiente de pesquisa e livros universitários</p>
-      <h1 class="hero-title">Alexandria - Marketplace</h1>
+﻿<app-navbar />
+<main id="conteudo" tabindex="-1">
+  <section class="hero page-width" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow">Alexandria — O Acervo Vivo</p>
+      <h1 id="hero-title">Toda informação<br />merece ser <em>encontrada.</em></h1>
       <p class="hero-lede">
-        Da geometria de Euclides à astronomia de Ptolomeu, adquira livros universitários e artigos
-        raros, copiados pelos escribas da Grande Biblioteca de Alexandria.
+        Livros que abrem caminhos. Referências que conectam ideias. Um universo de descobertas para
+        a sua próxima leitura.
       </p>
+      <form class="hero-search" role="search" (ngSubmit)="search()">
+        <i class="pi pi-search" aria-hidden="true"></i
+        ><label class="sr-only" for="hero-query">Buscar por título ou autor</label
+        ><input
+          id="hero-query"
+          type="search"
+          name="q"
+          [(ngModel)]="query"
+          placeholder="O que você quer descobrir hoje?"
+        /><button type="submit" class="btn">Buscar</button>
+      </form>
       <div class="hero-actions">
-        <a href="#vitrine" class="btn btn-gold btn-lg">Explorar o acervo</a>
-        <a routerLink="/login" class="btn btn-outline btn-lg">Acessar o sistema</a>
+        <a routerLink="/acervo"
+          >Explorar o acervo <i class="pi pi-arrow-right" aria-hidden="true"></i></a
+        ><a routerLink="/marketplace"
+          >Ver marketplace <i class="pi pi-arrow-up-right" aria-hidden="true"></i
+        ></a>
       </div>
-
-      <div class="hero-stats">
-        <div><strong>{{ totalObras() }}+</strong><span>obras catalogadas</span></div>
-        <div><strong>{{ categorias().length }}</strong><span>áreas do saber</span></div>
-        <div><strong>700 a.C.</strong><span>de história</span></div>
+      <div class="hero-note"><span></span>Para estudar, descobrir e guardar por perto.</div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="sun-disc"></div>
+      <div class="arch arch-one"></div>
+      <div class="arch arch-two"></div>
+      <div class="display-book book-back">
+        <span>IDEIAS<br />QUE<br />PERMANECEM</span><small>ALEXANDRIA</small>
       </div>
-    </div>
-    <div class="hero-logo">
-      <img src="logo.png" alt="Logo Alexandria Marketplace" width="1052" height="720">
-    </div>
-    <div class="hero-glyphs" aria-hidden="true">
-      <span>𓆎</span><span>𓁗</span><span>𓅓</span><span>𓋹</span>
+      <div class="display-book book-front">
+        <small>UM UNIVERSO DE</small><span>possíveis<br /><em>descobertas.</em></span>
+        <div class="book-emblem">A</div>
+        <small>O ACERVO VIVO</small>
+      </div>
+      <div class="shelf"></div>
+      <p>Conhecimento em movimento.</p>
     </div>
   </section>
-
-  <section id="vitrine" class="section">
-    <div>
-      <h2>Adquira livros universitários e materiais de estudo para auxiliar em sua vida acadêmica.</h2>
-    </div>
+  <section class="portals page-width" aria-labelledby="portals-title">
+    <h2 id="portals-title" class="sr-only">Três caminhos, uma Alexandria</h2>
+    <a routerLink="/marketplace" class="portal"
+      ><span class="portal-number">01 / ENCONTRE</span>
+      <h3>Marketplace <i class="pi pi-arrow-up-right" aria-hidden="true"></i></h3>
+      <p>Obras para fazer parte da sua vida.<br />Explore livros disponíveis para compra.</p></a
+    ><a routerLink="/acervo" class="portal"
+      ><span class="portal-number">02 / INVESTIGUE</span>
+      <h3>Acervo Acadêmico <i class="pi pi-arrow-up-right" aria-hidden="true"></i></h3>
+      <p>Conecte sua pesquisa a novas referências.<br />Busque por obras, autores e áreas.</p></a
+    ><a routerLink="/estante" class="portal"
+      ><span class="portal-number">03 / CULTIVE</span>
+      <h3>Minha Estante <i class="pi pi-arrow-up-right" aria-hidden="true"></i></h3>
+      <p>Um espaço para suas descobertas.<br />Reúna seus favoritos e volte a explorar.</p></a
+    >
   </section>
-
-  <!-- ===================== Categories ===================== -->
-  <section id="areas" class="section section-band">
-    <div class="section-head">
-      <p class="eyebrow">𓎼 Coleções</p>
-      <h2>Áreas do saber</h2>
-      <p class="section-sub">Percorra o acervo pelas grandes disciplinas da Antiguidade.</p>
+  <section id="areas" class="section page-width">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Conhecimento sem fronteiras</p>
+        <h2>Por onde começa sua curiosidade?</h2>
+      </div>
+      <a routerLink="/acervo"
+        >Todas as áreas <i class="pi pi-arrow-right" aria-hidden="true"></i
+      ></a>
     </div>
-    <div class="categorias">
-      @for (c of categorias(); track c) {
-        <a routerLink="/login" class="categoria">{{ c }}</a>
+    <div class="areas-grid">
+      @for (area of areas; track area; let index = $index) {
+        <a routerLink="/acervo" [queryParams]="{ area: area }"
+          ><i class="pi" [class]="'pi ' + icons[index]" aria-hidden="true"></i
+          ><span>{{ area }}</span></a
+        >
       }
     </div>
   </section>
-
-  <!-- ===================== Showcase ===================== -->
-  <section id="vitrine" class="section">
-    <div class="section-head">
-      <h2>Obras em destaque</h2>
-      <p class="section-sub">Uma seleção dos tesouros disponíveis para aquisição.</p>
-    </div>
-
-    <div class="grid-produtos">
-      @for (l of vitrine(); track l.id) {
-        <article class="produto">
-          <div class="produto-capa">
-            <span class="capa-glyph">𓂀</span>
-            <span class="capa-inicial">{{ inicial(l.titulo) }}</span>
-            <span class="produto-genero">{{ l.genero }}</span>
-          </div>
-          <div class="produto-corpo">
-            <h3 class="produto-titulo">{{ l.titulo }}</h3>
-            <p class="produto-autor">{{ l.autor }}</p>
-            <p class="produto-desc">{{ l.descricao }}</p>
-            <div class="produto-rodape">
-              <span class="produto-preco">{{ l.preco | currency: 'BRL' }}</span>
-              <a routerLink="/acervo/view" class="btn btn-gold btn-sm">Adquirir</a>
-            </div>
-          </div>
-        </article>
-      }
-    </div>
-  </section>
-
-
-
-  <!-- ===================== About ===================== -->
-  <section id="sobre" class="section sobre">
-    <div class="sobre-glyph" aria-hidden="true">𓊪</div>
-    <div class="sobre-text">
-      <p class="eyebrow">A Biblioteca</p>
-      <h2>“Um lugar para a cura da alma”</h2>
-      <p>
-        Fundada às margens do Mediterrâneo, a Bibliotheca Alexandrina reuniu os
-        maiores pensadores de seu tempo. Hoje, levamos esse mesmo espírito a você:
-        catálogo curado, atendimento de escribas e entrega de obras que atravessaram
-        séculos.
+  <section class="showcase section" aria-labelledby="selection-title">
+    <div class="page-width">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Abra espaço para novas ideias</p>
+          <h2 id="selection-title">Encontros com o acervo</h2>
+        </div>
+        <a routerLink="/acervo"
+          >Explorar todas as obras <i class="pi pi-arrow-right" aria-hidden="true"></i
+        ></a>
+      </div>
+      <p class="section-intro">
+        Uma janela para as obras do nosso catálogo. Sua próxima referência pode estar aqui.
       </p>
-      <a routerLink="/login" class="btn btn-gold">Junte-se à Biblioteca</a>
+      @if (catalog.loading()) {
+        <div class="book-grid" role="status" aria-label="Carregando obras">
+          @for (item of [1, 2, 3, 4]; track item) {
+            <p-skeleton height="320px" />
+          }
+        </div>
+      } @else if (catalog.error()) {
+        <div class="state-panel" role="alert">
+          <i class="pi pi-book" aria-hidden="true"></i>
+          <h3>As descobertas esperam por você</h3>
+          <p>{{ catalog.error() }}</p>
+          <button class="btn btn-outline" type="button" (click)="catalog.load(true)">
+            Tentar novamente
+          </button>
+        </div>
+      } @else if (vitrine().length) {
+        <div class="book-grid">
+          @for (book of vitrine(); track book.id) {
+            <app-book-card [book]="book" />
+          }
+        </div>
+      } @else {
+        <div class="state-panel">
+          <h3>Um acervo em construção</h3>
+          <p>As obras cadastradas aparecerão aqui. Volte em breve para explorar.</p>
+        </div>
+      }
     </div>
   </section>
-
-  <!-- ===================== Footer ===================== -->
-  <footer class="lp-footer">
-    <div class="lp-footer-brand">
-      <span class="lp-brand-mark">𓋹</span>
-      <span>Bibliotheca Alexandrina</span>
+  @if (commercial().length) {
+    <section class="section page-width">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Da descoberta à sua estante</p>
+          <h2>Disponíveis no marketplace</h2>
+        </div>
+        <a routerLink="/marketplace"
+          >Ver marketplace <i class="pi pi-arrow-right" aria-hidden="true"></i
+        ></a>
+      </div>
+      <div class="book-grid">
+        @for (book of commercial(); track book.id) {
+          <app-book-card [book]="book" variant="commercial" />
+        }
+      </div>
+    </section>
+  }
+  <section class="academic-band page-width">
+    <div>
+      <p class="eyebrow">Referências para ir além</p>
+      <h2>Grandes perguntas.<br />Novos pontos de partida.</h2>
+      <p>
+        Explore o acervo por área do conhecimento e encontre obras para acompanhar seus estudos.
+      </p>
+      <a class="btn" routerLink="/acervo" [queryParams]="{ layout: 'list' }"
+        >Pesquisar referências <i class="pi pi-arrow-right" aria-hidden="true"></i
+      ></a>
     </div>
-    <p class="lp-footer-note">
-      © {{ anoAtual }} — Gabinete Imperialium de Registros · Casa do Saber Etéreo
-    </p>
-  </footer>
-</div>
+    <div class="academic-links">
+      @for (area of ['Computação', 'Matemática', 'Humanidades']; track area) {
+        <a routerLink="/acervo" [queryParams]="{ area: area, layout: 'list' }"
+          ><span>{{ area }}</span
+          ><i class="pi pi-arrow-up-right" aria-hidden="true"></i
+        ></a>
+      }
+    </div>
+  </section>
+  <section class="section personal page-width">
+    <span class="personal-mark" aria-hidden="true"><i class="pi pi-bookmark"></i></span>
+    <div>
+      <p class="eyebrow">Minha Estante</p>
+      <h2>
+        {{
+          auth.isAuthenticated() ? 'Continue sua descoberta.' : 'Toda leitura deixa uma história.'
+        }}
+      </h2>
+      <p>
+        {{
+          reader.favorites().length
+            ? 'Você tem ' +
+              reader.favorites().length +
+              ' obras nos favoritos desta sessão. Volte a elas quando quiser.'
+            : 'Guarde seus favoritos e construa seu próximo percurso pelo conhecimento.'
+        }}
+      </p>
+      <a routerLink="/estante" class="btn btn-outline"
+        >Explorar Minha Estante <i class="pi pi-arrow-right" aria-hidden="true"></i
+      ></a>
+    </div>
+  </section>
+  <section id="sobre" class="about-band">
+    <div class="page-width">
+      <p class="eyebrow">Nossa inspiração</p>
+      <h2>Preservar o saber.<br />Inspirar o que vem depois.</h2>
+      <p>
+        A Alexandria aproxima a descoberta de livros, a pesquisa acadêmica e a sua biblioteca
+        pessoal. Um ponto de encontro entre o que já sabemos e tudo o que ainda podemos descobrir.
+      </p>
+    </div>
+  </section>
+  <section id="ajuda" class="section page-width help">
+    <div>
+      <p class="eyebrow">Antes de explorar</p>
+      <h2>Bom saber.</h2>
+    </div>
+    <div>
+      <details>
+        <summary>Como pesquisar no acervo?</summary>
+        <p>
+          Use o título ou o nome do autor. Você também pode filtrar as obras por área do
+          conhecimento e alternar entre lista e capas.
+        </p>
+      </details>
+      <details>
+        <summary>Qual a diferença entre acervo e marketplace?</summary>
+        <p>
+          O acervo prioriza a descoberta e as referências das obras. No marketplace, você também
+          encontra o preço e a disponibilidade para compra.
+        </p>
+      </details>
+      <details>
+        <summary>Meus favoritos ficam salvos?</summary>
+        <p>
+          Nesta versão, favoritos e carrinho ficam disponíveis durante a sessão e são apagados ao
+          recarregar a página. A biblioteca pessoal permanente ainda está em desenvolvimento.
+        </p>
+      </details>
+    </div>
+  </section>
+</main>

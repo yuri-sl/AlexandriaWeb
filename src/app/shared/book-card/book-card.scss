@@ -1,0 +1,167 @@
+﻿:host {
+  display: block;
+  min-width: 0;
+}
+.book-card {
+  height: 100%;
+}
+.cover-link {
+  display: block;
+  padding: 1.5rem 2rem;
+  background: var(--color-surface-muted);
+  text-decoration: none;
+}
+.book-cover {
+  min-height: 230px;
+  aspect-ratio: 2/3;
+  max-height: 290px;
+  margin: auto;
+  background: #174d56;
+  color: #fff5df;
+  padding: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  border-left: 6px solid #ffffff24;
+  box-shadow: 5px 8px 10px #0b243020;
+  transition: transform 0.2s;
+}
+.cover-link:hover .book-cover {
+  transform: translateY(-4px);
+}
+.terracotta {
+  background: #884b37;
+}
+.sand {
+  background: #cdbb9b;
+  color: #23343b;
+}
+.cover-area {
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.cover-title {
+  font: 600 clamp(1.4rem, 2vw, 2rem)/1.1 var(--font-display);
+  overflow-wrap: anywhere;
+  margin-top: auto;
+}
+.cover-rule {
+  width: 30px;
+  border-top: 1px solid currentColor;
+  margin: 1rem;
+  opacity: 0.6;
+}
+.cover-author {
+  font-size: 0.65rem;
+}
+.book-cover small {
+  font-size: 0.5rem;
+  margin-top: auto;
+  padding-top: 1rem;
+}
+.book-info {
+  padding-top: 1rem;
+}
+.book-area {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--color-primary);
+}
+h3 {
+  font-size: 1.5rem;
+  margin: 0.35rem 0;
+}
+h3 a {
+  color: var(--color-header);
+  text-decoration: none;
+}
+.author {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin: 0.3rem 0 0.9rem;
+}
+.price-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block: 1rem;
+}
+.price-row strong {
+  font-size: 1.05rem;
+}
+.price-row span {
+  font-size: 0.65rem;
+  color: var(--color-success);
+}
+.price-row .unavailable {
+  color: var(--color-danger);
+}
+.card-actions,
+.academic-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.academic-actions a {
+  font-size: 0.75rem;
+  text-decoration: none;
+}
+.description {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.list {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 1.5rem;
+}
+.list .cover-link {
+  padding: 0.75rem;
+}
+.list .book-cover {
+  min-height: 170px;
+  padding: 0.75rem;
+}
+.list .cover-title {
+  font-size: 1.3rem;
+}
+.list .book-info {
+  padding: 0;
+}
+.list .card-actions {
+  justify-content: start;
+}
+@media (max-width: 768px) {
+  .cover-link {
+    padding: 1rem;
+  }
+  .book-cover {
+    min-height: 190px;
+  }
+  .list {
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: 1rem;
+  }
+  .list .book-cover {
+    min-height: 140px;
+  }
+  .list .cover-title {
+    font-size: 1rem;
+  }
+  .list .cover-area,
+  .list .book-cover small {
+    display: none;
+  }
+}

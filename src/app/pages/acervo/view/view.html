@@ -1,54 +1,89 @@
-<app-navbar></app-navbar>
-<div class="view-container">
-    <div class="left">
+﻿<app-navbar />
+<main id="conteudo" class="page-width detail-page" tabindex="-1">
+  <nav class="breadcrumb" aria-label="Localização">
+    <a routerLink="/">Início</a><span aria-hidden="true">/</span
+    ><a [routerLink]="commercial() ? '/marketplace' : '/acervo'">{{
+      commercial() ? 'Marketplace' : 'Acervo'
+    }}</a
+    ><span aria-hidden="true">/</span><span>Detalhes da obra</span>
+  </nav>
+  @if (loading()) {
+    <p-skeleton height="400px" aria-label="Carregando obra" />
+  } @else if (book(); as item) {
+    <article class="detail-grid">
+      <div class="cover-placeholder">
+        <i class="pi pi-book" aria-hidden="true"></i>
+        <h2>{{ item.titulo }}</h2>
+        <p>{{ item.autor }}</p>
+        <small>Capa não disponível</small>
+      </div>
+      <div>
+        <p class="eyebrow">{{ item.genero || 'Acervo Alexandria' }}</p>
+        <h1>{{ item.titulo }}</h1>
+        <p class="author">por {{ item.autor }}</p>
+        <section aria-labelledby="overview">
+          <h2 id="overview">Visão geral</h2>
+          <p class="synopsis">{{ item.descricao || 'Sinopse ainda não disponível.' }}</p>
+        </section>
+        <section class="bibliography" aria-labelledby="bibliography">
+          <h2 id="bibliography">Dados bibliográficos</h2>
+          <dl>
+            <div>
+              <dt>Autor</dt>
+              <dd>{{ item.autor }}</dd>
+            </div>
+            <div>
+              <dt>Área</dt>
+              <dd>{{ item.genero || 'Não informada' }}</dd>
+            </div>
+          </dl>
+          <p class="muted">
+            Informações de edição, ISBN, editora, ano, idioma e formato ainda não estão disponíveis
+            para esta obra.
+          </p>
+        </section>
+        @if (commercial()) {
+          <section class="purchase">
+            <h2>Disponibilidade para compra</h2>
+            <strong>{{ item.preco | currency: 'BRL' }}</strong>
+            <p>
+              {{
+                item.estoque > 0
+                  ? item.estoque + ' exemplares em estoque'
+                  : 'Indisponível no momento'
+              }}
+            </p>
+            <p-button
+              label="Adicionar ao carrinho"
+              icon="pi pi-shopping-bag"
+              [disabled]="item.estoque < 1"
+              (onClick)="add()"
+            />
+          </section>
+        } @else {
+          <a
+            class="btn btn-outline"
+            [routerLink]="'/acervo/view'"
+            [queryParams]="{ id: item.id, modo: 'commercial' }"
+            >Consultar no marketplace</a
+          >
+        }
+        <button
+          class="favorite btn btn-outline"
+          type="button"
+          [attr.aria-pressed]="reader.isFavorite(item)"
+          (click)="reader.toggleFavorite(item)"
+        >
+          <i class="pi pi-heart" aria-hidden="true"></i
+          >{{ reader.isFavorite(item) ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}
+        </button>
+      </div>
+    </article>
+  } @else {
+    <div class="state-panel" role="alert">
+      <h1>Obra não encontrada</h1>
+      <p>O link pode estar incompleto ou o acervo indisponível.</p>
+      <a class="btn" routerLink="/acervo">Voltar ao acervo</a>
     </div>
-    <div class="right">
-        <div class="categorias">
-
-        </div>
-        <h1>{{titulo}}</h1>
-        <label>Descrição dos livros</label>
-
-        <div class="preco-box">
-            <h1>R$ {{preco}}</h1>
-            <label>Em até 6x sem juros. Entrega pelos correios em 5-8 dias.</label>
-            <div class="preco-box-acoes-container">
-                <input [(ngModel)]="quantidade" type="range" name="quantidade" min="1" max="10">
-                <span>{{quantidade}}</span>
-                <button>Adicionar ao carrinho</button>
-                <button>Add. Favoritos</button>
-            </div>
-        </div>
-
-        <div class="ficha-tecnica">
-            <div class="colunas-tecnicas">
-                Ficha da Obra
-                Conservação
-                Proveniência
-                Avaliações
-            </div>
-            <div class="valores-colunas">
-            </div>
-        </div>
-    </div>
-
-    <div class="bottom">
-        <h1>Obras relacionadas</h1>
-        <div class="obras-relacionadas">
-            <div class="card">
-                <h1>Título da obra</h1>
-            </div>
-        </div>
-    </div>
-
-    <footer class="lp-footer">
-        <div class="lp-footer-brand">
-            <span class="lp-brand-mark">𓋹</span>
-            <span>Bibliotheca Alexandrina</span>
-        </div>
-        <p class="lp-footer-note">
-        © 2026 — Gabinete Imperialium de Registros · Casa do Saber Etéreo
-        </p>
-    </footer>
-
-</div>
+  }
+</main>

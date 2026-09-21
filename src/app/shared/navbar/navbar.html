@@ -1,22 +1,93 @@
-<header class="lp-nav">
-    <a class="lp-brand" routerLink="/">
-        <span routerLink="/" class="lp-brand-mark">𓋹</span>
-        <span class="lp-brand-text">
-        <strong>Bibliotheca</strong>
-        <small>Alexandrina</small>
-        </span>
-    </a>
-
-    <nav class="lp-links">
-        <a routerLink="/acervo">Acervo</a>
-        <a href="#areas">Áreas do saber</a>
-        <a href="#sobre">A Biblioteca</a>
-    </nav>
-
-    <div class="lp-nav-actions">
-        <a routerLink="/carrinho" class="btn btn-ghost"><i class="pi pi-shopping-cart"></i></a>
-        <a routerLink="/login" class="btn btn-ghost">Entrar</a>
-        <a routerLink="/login" class="btn btn-gold">Criar conta</a>
+﻿<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+<header class="site-header">
+  <div class="header-main page-width">
+    <button
+      type="button"
+      class="icon-button menu-toggle"
+      aria-label="Abrir navegação"
+      [attr.aria-expanded]="menuOpen"
+      (click)="menuOpen = true"
+    >
+      <i class="pi pi-bars" aria-hidden="true"></i>
+    </button>
+    <a class="brand" routerLink="/" aria-label="Biblioteca Alexandria — início"
+      ><span class="brand-mark" aria-hidden="true"><i class="pi pi-book"></i></span
+      ><span><small>Biblioteca</small><strong>Alexandria</strong></span></a
+    >
+    <form class="global-search" role="search" (ngSubmit)="search()">
+      <label class="sr-only" for="global-query">Buscar por título ou autor</label
+      ><i class="pi pi-search" aria-hidden="true"></i
+      ><input
+        pInputText
+        id="global-query"
+        name="q"
+        [(ngModel)]="query"
+        placeholder="Encontre sua próxima descoberta"
+        type="search"
+      /><button type="submit" aria-label="Pesquisar">
+        <i class="pi pi-arrow-right" aria-hidden="true"></i>
+      </button>
+    </form>
+    <div class="account-actions">
+      <a class="icon-button favorites" routerLink="/estante" aria-label="Meus favoritos"
+        ><i class="pi pi-heart" aria-hidden="true"></i
+      ></a>
+      <a
+        class="cart-link icon-button"
+        routerLink="/carrinho"
+        [attr.aria-label]="'Carrinho com ' + reader.count() + ' itens'"
+        ><i class="pi pi-shopping-bag" aria-hidden="true"></i
+        ><span class="count">{{ reader.count() }}</span></a
+      >
+      @if (auth.isAuthenticated()) {
+        <details class="account-menu">
+          <summary aria-label="Menu da conta">
+            <i class="pi pi-user" aria-hidden="true"></i><span>Minha conta</span>
+          </summary>
+          <div>
+            <a routerLink="/estante">Minha Estante</a><a routerLink="/painel">Painel</a>
+            @if (auth.isAdmin()) {
+              <a routerLink="/gestao">Administração</a>
+            }
+            <button type="button" (click)="logout()">Sair</button>
+          </div>
+        </details>
+      } @else {
+        <a class="login-link" routerLink="/login"
+          ><i class="pi pi-user" aria-hidden="true"></i><span>Entrar</span></a
+        >
+      }
     </div>
-
+  </div>
+  <div class="module-bar">
+    <nav class="page-width" aria-label="Módulos">
+      <a routerLink="/marketplace" routerLinkActive="active">Marketplace</a
+      ><a routerLink="/acervo" routerLinkActive="active">Acervo Acadêmico</a
+      ><a routerLink="/estante" routerLinkActive="active">Minha Estante</a
+      ><span class="header-motto">O acervo vivo. O conhecimento, sempre.</span>
+    </nav>
+  </div>
 </header>
+<nav class="categories page-width" aria-label="Áreas do conhecimento">
+  @for (area of areas; track area) {
+    <a routerLink="/acervo" [queryParams]="{ area: area }">{{ area }}</a>
+  }
+</nav>
+<p-drawer
+  [(visible)]="menuOpen"
+  header="Explore a Alexandria"
+  [style]="{ width: 'min(88vw, 360px)' }"
+>
+  <nav class="drawer-nav" aria-label="Navegação mobile">
+    <a routerLink="/" (click)="menuOpen = false">Início</a
+    ><a routerLink="/marketplace" (click)="menuOpen = false">Marketplace</a
+    ><a routerLink="/acervo" (click)="menuOpen = false">Acervo Acadêmico</a
+    ><a routerLink="/estante" (click)="menuOpen = false">Minha Estante e favoritos</a>
+    <p class="eyebrow">Áreas do conhecimento</p>
+    @for (area of areas; track area) {
+      <a routerLink="/acervo" [queryParams]="{ area: area }" (click)="menuOpen = false">{{
+        area
+      }}</a>
+    }
+  </nav>
+</p-drawer>
